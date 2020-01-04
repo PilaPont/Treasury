@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="treasury_checkbook_view_tree" model="ir.ui.view">
+        <field name="name">treasury.checkbook.view.tree</field>
+        <field name="model">treasury.checkbook</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name"/>
+                <field name="remained"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="treasury_checkbook_view_form" model="ir.ui.view">
+        <field name="name">treasury.checkbook.view.tree</field>
+        <field name="model">treasury.checkbook</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="journal_id" attrs="{'readonly':[('check_ids','!=',[])]}"
+                                   domain="[('type', '=', 'bank')]"/>
+                            <field name="bank_account_id"/>
+                            <field name="display_name"/>
+
+                        </group>
+                        <group>
+                            <field name="series_no" options='{"type":"text"}'
+                                   attrs="{'readonly':[('check_ids','!=',[])]}"/>
+                            <field name="first_serial_no" options='{"type":"text"}'
+                                   attrs="{'readonly':[('check_ids','!=',[])]}"/>
+                            <field name="select_count" attrs="{'readonly':[('check_ids','!=',[])]}"/>
+                            <field name="count"
+                                   attrs="{'invisible':[('select_count','!=','custom_count')], 'readonly':[('check_ids','!=',[])]}"/>
+                            <field name="remained"/>
+                        </group>
+                        <field name="check_ids" attrs="{'readonly':[('check_ids','!=',[])]}" readonly="1"/>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="treasury_checkbook_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Treasury Checkbook</field>
+        <field name="res_model">treasury.checkbook</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first checkbook!
+            </p>
+        </field>
+    </record>
+    <menuitem id="treasury_checkbook_menu_main" name="Treasury" web_icon=""/>
+    <menuitem id="treasury_checkbook_menu" name="Treasury Checkbook" parent="treasury_checkbook_menu_main"
+              action="treasury_checkbook_action_view_tree"/>
+</odoo>
