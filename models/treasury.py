@@ -49,9 +49,9 @@ class TreasuryCheckbook(models.Model):
     first_serial_no = fields.Integer(string='First Check Serial No.', required=True)
     series_no = fields.Integer(string='Series No.', required=True)
     select_count = fields.Selection(selection=[
-        ('10', 10),
-        ('20', 20),
-        ('50', 50),
+        ('10', '10'),
+        ('20', '20'),
+        ('50', '50'),
         ('custom_count', 'Custom Count')], string='Select Count')
     count = fields.Integer(string='Count')
     remained = fields.Integer(string='# Remained', compute='_compute_remained_state', store=True)
