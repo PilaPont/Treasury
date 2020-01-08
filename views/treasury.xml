@@ -10,7 +10,7 @@
             </tree>
         </field>
     </record>
-
+    confirm="Are you sure you want to do this?"
     <record id="treasury_checkbook_view_form" model="ir.ui.view">
         <field name="name">treasury.checkbook.view.tree</field>
         <field name="model">treasury.checkbook</field>
@@ -20,8 +20,10 @@
                     <group>
                         <group>
                             <field name="journal_id" attrs="{'readonly':[('check_ids','!=',[])]}"
-                                   domain="[('type', '=', 'bank')]"/>
+                                   domain="[('type', '=', 'bank'), ('company_id', '=', company_id)]"
+                                   widget="selection"/>
                             <field name="bank_account_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
                             <field name="display_name"/>
 
                         </group>
@@ -33,9 +35,16 @@
                             <field name="select_count" attrs="{'readonly':[('check_ids','!=',[])]}"/>
                             <field name="count"
                                    attrs="{'invisible':[('select_count','!=','custom_count')], 'readonly':[('check_ids','!=',[])]}"/>
-                            <field name="remained"/>
+                            <field name="remained" attrs="{'invisible':[('check_ids','=',[])]}"/>
                         </group>
                         <field name="check_ids" attrs="{'readonly':[('check_ids','!=',[])]}" readonly="1"/>
+                        <group>
+                            <button name="cancel_all" string="cancel all" type="object"
+                                    confirm="Are you sure you want to do this?" class="btn-primary"
+                                    attrs="{'invisible':[('check_ids','=',[])]}"/>
+                        </group>
+
+
                     </group>
                 </sheet>
 

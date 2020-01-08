@@ -24,6 +24,17 @@ class TreasuryCheckbook(models.Model):
         for check_book in self:
             check_book.display_name = '{}- {} ({})'.format(self.journal_id.name, self.first_serial_no, self.count)
 
+    @api.multi
+    def _compute_next(self):
+        for check_book in self:
+            check_book.next_check = self.env['treasury.check'].search([('state', '=', 'new')], limit=1).get_name()
+
+    @api.multi
+    @api.depends('state')
+    def _compute_active(self):
+        for check_book in self:
+            check_book.active = False if check_book.state == 'done' else True
+
     @api.onchange('select_count')
     def _onchange_select_count(self):
         try:
@@ -48,9 +59,17 @@ class TreasuryCheckbook(models.Model):
                 raise exceptions.UserError('There is at least one check with state other than new and draft.')
         return super(TreasuryCheckbook, self).unlink()
 
-    journal_id = fields.Many2one('account.journal', string='Journal', required=True, domain=[('type', '=', 'bank')])
+    @api.multi
+    def cancel_all(self):
+        for check in self.check_ids:
+            check.state = 'canceled'
+        self.active = False
+
+    journal_id = fields.Many2one('account.journal', string='Journal', required=True)
     bank_account_id = fields.Many2one('res.partner.bank', string='Bank Account',
                                       related='journal_id.bank_account_id', readonly=True)
+    company_id = fields.Many2one('res.company',
+                                 default=lambda self: self.env['res.company']._company_default_get())
     check_ids = fields.One2many('treasury.check', string='Check', inverse_name='checkbook_id',
                                 required=True)
     first_serial_no = fields.Integer(string='First Check Serial No.', required=True)
@@ -62,7 +81,9 @@ class TreasuryCheckbook(models.Model):
         ('custom_count', 'Custom Count')], string='Select Count')
     count = fields.Integer(string='Count')
     remained = fields.Integer(string='# Remained', compute='_compute_remained_state', store=True)
+    next_check = fields.Char(string='next check No.', compute='_compute_next')
     display_name = fields.Char(string='Name', compute='_compute_display_name', store=True)
+    active = fields.Boolean(string='active', compute='_compute_active', store=True)
     state = fields.Selection([
         ('open', 'Open'),
         ('finished', 'Finished'),
