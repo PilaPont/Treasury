@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, exceptions
 from odoo.tools.num2fawords import ordinal_words, words
 from odoo.tools import jadatetime as jd
 
@@ -40,6 +40,13 @@ class TreasuryCheckbook(models.Model):
                 'checkbook_id': check_book.id
             })
         return check_book
+
+    @api.model
+    def unlink(self):
+        for checkbook in self:
+            if any(check.state not in ('new', 'draft') for check in checkbook.check_ids):
+                raise exceptions.UserError('There is at least one check with state other than new and draft.')
+        return super(TreasuryCheckbook, self).unlink()
 
     journal_id = fields.Many2one('account.journal', string='Journal', required=True, domain=[('type', '=', 'bank')])
     bank_account_id = fields.Many2one('res.partner.bank', string='Bank Account',
