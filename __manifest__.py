@@ -11,6 +11,8 @@
                 ],
     'data': ['security/treasury_security.xml',
              'security/ir.model.access.csv',
+             'report/print_check.xml',
+             'report/check_report.xml',
              'views/treasury.xml',
              ],
     'demo': [],

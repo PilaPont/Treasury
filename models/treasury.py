@@ -68,7 +68,7 @@ class TreasuryCheckbook(models.Model):
     journal_id = fields.Many2one('account.journal', string='Journal', required=True)
     bank_account_id = fields.Many2one('res.partner.bank', string='Bank Account',
                                       related='journal_id.bank_account_id', readonly=True)
-    company_id = fields.Many2one('res.company',
+    company_id = fields.Many2one('res.company', string='company id',
                                  default=lambda self: self.env['res.company']._company_default_get())
     check_ids = fields.One2many('treasury.check', string='Check', inverse_name='checkbook_id',
                                 required=True)
@@ -99,18 +99,23 @@ class TreasuryCheck(models.Model):
     def _compute_due_date_text(self):
         for check in self:
             check.date_due_text = ordinal_words(jd.date.fromgregorian(date=self.date_due).day) \
-                                  + jd.date.fromgregorian(date=self.date_due).strftime(' %B ') \
+                                  + jd.date.fromgregorian(date=self.date_due).aslocale('fa_IR').strftime(' %B ') \
                                   + words(jd.date.fromgregorian(date=self.date_due).year)
 
     @api.multi
     def _compute_description(self):
         for check in self:
-            check.description = '{} {} {}'.format(self.beneficiary, _('for'), self.reason)
+            check.description = '{} {} {}'.format(self.beneficiary.name, _('for'), self.reason)
 
     @api.multi
     def _compute_amount_text(self):
         for check in self:
             check.amount_text = words(self.amount)
+
+    @api.multi
+    def print_check(self):
+        self.state = 'printed'
+        return self.env.ref('treasury.action_print_check').report_action(self, config=False)
 
     name = fields.Char(string='Check No.', readonly=True, required=True)
     date_issue = fields.Datetime(string='Issue Date')
@@ -131,4 +136,10 @@ class TreasuryCheck(models.Model):
         ('cleaned', 'Cleaned'),
         ('bounced', 'Bounced'),
         ('canceled', 'Canceled'),
-    ], required=True, default='new')
+    ], default='new', readonly=True)
+    company_id = fields.Many2one('res.company', string='company id',
+                                 related='checkbook_id.company_id', readonly=True)
+    purpose = fields.Selection([
+        ('normal', 'Normal'),
+        ('guaranty', 'Guaranty'),
+    ], required=True, default='normal')
