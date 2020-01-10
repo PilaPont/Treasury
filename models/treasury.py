@@ -117,6 +117,10 @@ class TreasuryCheck(models.Model):
         self.state = 'printed'
         return self.env.ref('treasury.action_print_check').report_action(self, config=False)
 
+    @api.multi
+    def deliver_check(self):
+        self.state = 'delivered'
+
     name = fields.Char(string='Check No.', readonly=True, required=True)
     date_issue = fields.Datetime(string='Issue Date')
     date_due = fields.Date(string='Due Date')

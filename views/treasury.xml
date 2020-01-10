@@ -75,12 +75,16 @@
         <field name="name">treasury.check.view.tree</field>
         <field name="model">treasury.check</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-success="state=='new' or state=='draft'" decoration-info="state=='printed'"
+                  decoration-danger="state=='delivered' or (date_due and date_due &gt;= current_date)"
+                  decoration-bf="state=='delivered'"
+                  decoration-muted="state=='canceled' or state=='cleaned'">
                 <field name="name"/>
                 <field name="date_due"/>
                 <field name="amount"/>
                 <field name="beneficiary"/>
                 <field name="reason"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -92,6 +96,8 @@
             <form>
                 <header>
                     <button name="print_check" string="print" type="object" class="btn-primary"/>
+                    <button name="deliver_check" string="deliver" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','!=','printed')]}"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
