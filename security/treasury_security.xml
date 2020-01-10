@@ -19,5 +19,8 @@
         <field name="implied_ids" eval="[(4, ref('group_treasury_user'))]"/>
     </record>
 
+    <record model="res.users" id="base.user_admin">
+        <field name="groups_id" eval="[(4, ref('treasury.group_treasury_manager'))]"/>
+    </record>
 </data>
 </odoo>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 15:42+0000\n"
-"PO-Revision-Date: 2020-01-04 15:42+0000\n"
+"POT-Creation-Date: 2020-01-10 18:42+0000\n"
+"PO-Revision-Date: 2020-01-10 18:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,12 +38,17 @@ msgstr "۵۰"
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_check__amount
 msgid "Amount"
-msgstr "مبلغ"
+msgstr "مقدار"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_check__amount_text
 msgid "Amount Text"
 msgstr "مبلغ به حروف"
+
+#. module: treasury
+#: model_terms:ir.ui.view,arch_db:treasury.treasury_checkbook_view_form
+msgid "Are you sure you want to do this?"
+msgstr ""
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__bank_account_id
@@ -66,6 +71,7 @@ msgid "Canceled"
 msgstr "باطل‌شده"
 
 #. module: treasury
+#: model:ir.actions.report,name:treasury.action_print_check
 #: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__check_ids
 msgid "Check"
 msgstr "چک"
@@ -89,6 +95,11 @@ msgstr "تسویه‌شده"
 #: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__count
 msgid "Count"
 msgstr "تعداد"
+
+#. module: treasury
+#: model_terms:ir.actions.act_window,help:treasury.treasury_check_action_view_tree
+msgid "Create your first check!"
+msgstr ""
 
 #. module: treasury
 #: model_terms:ir.actions.act_window,help:treasury.treasury_checkbook_action_view_tree
@@ -125,7 +136,7 @@ msgstr "تحویل‌شده"
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_check__description
 msgid "Description"
-msgstr "شرح"
+msgstr "توصیف"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_check__display_name
@@ -161,6 +172,11 @@ msgstr "تمام‌شده"
 #: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__first_serial_no
 msgid "First Check Serial No."
 msgstr "شماره سریال اولین چک"
+
+#. module: treasury
+#: selection:treasury.check,purpose:0
+msgid "Guaranty"
+msgstr ""
 
 #. module: treasury
 #: model:ir.module.category,description:treasury.module_category_treasury
@@ -217,6 +233,11 @@ msgid "New"
 msgstr "جدید"
 
 #. module: treasury
+#: selection:treasury.check,purpose:0
+msgid "Normal"
+msgstr "عادی"
+
+#. module: treasury
 #: selection:treasury.checkbook,state:0
 msgid "Open"
 msgstr "باز"
@@ -225,6 +246,11 @@ msgstr "باز"
 #: selection:treasury.check,state:0
 msgid "Printed"
 msgstr "چاپ‌شده"
+
+#. module: treasury
+#: model:ir.model.fields,field_description:treasury.field_treasury_check__purpose
+msgid "Purpose"
+msgstr ""
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_check__reason
@@ -245,7 +271,7 @@ msgstr "شماره سری"
 #: model:ir.model.fields,field_description:treasury.field_treasury_check__state
 #: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__state
 msgid "State"
-msgstr "وضعیت"
+msgstr "استان"
 
 #. module: treasury
 #: model:ir.model.fields,help:treasury.field_treasury_check__currency_id
@@ -259,7 +285,9 @@ msgid "Treasury"
 msgstr "خزانه‌داری"
 
 #. module: treasury
+#: model:ir.actions.act_window,name:treasury.treasury_check_action_view_tree
 #: model:ir.model,name:treasury.model_treasury_check
+#: model:ir.ui.menu,name:treasury.treasury_check_menu
 msgid "Treasury Check"
 msgstr "چک"
 
@@ -276,8 +304,34 @@ msgid "User"
 msgstr "کاربر"
 
 #. module: treasury
-#: code:addons/treasury/models/treasury.py:80
+#: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__active
+msgid "active"
+msgstr ""
+
+#. module: treasury
+#: model_terms:ir.ui.view,arch_db:treasury.treasury_checkbook_view_form
+msgid "cancel all"
+msgstr ""
+
+#. module: treasury
+#: model:ir.model.fields,field_description:treasury.field_treasury_check__company_id
+#: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__company_id
+msgid "company id"
+msgstr ""
+
+#. module: treasury
+#: code:addons/treasury/models/treasury.py:108
 #, python-format
 msgid "for"
-msgstr "برای"
+msgstr "بابت"
+
+#. module: treasury
+#: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__next_check
+msgid "next check No."
+msgstr ""
+
+#. module: treasury
+#: model_terms:ir.ui.view,arch_db:treasury.treasury_check_view_form
+msgid "print"
+msgstr ""
 
