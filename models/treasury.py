@@ -62,7 +62,8 @@ class TreasuryCheckbook(models.Model):
     @api.multi
     def cancel_all(self):
         for check in self.check_ids:
-            check.state = 'canceled'
+            if check.state in ('new', 'draft', 'printed'):
+                check.state = 'canceled'
         self.active = False
 
     journal_id = fields.Many2one('account.journal', string='Journal', required=True)

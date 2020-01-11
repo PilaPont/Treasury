@@ -15,6 +15,14 @@ class TestRegisterCheckBook(TransactionCase):
             'count': 6
         })
 
+        self.checkbook_ct = self.env['treasury.checkbook'].create({
+            'journal_id': 8,
+            'series_no': 9874,
+            'first_serial_no': 65421,
+            'select_count': 'custom_count',
+            'count': 8
+        })
+
     def test_register_checkbook(self):
         """
         when register a checkbook, all checks should be created and in new state
@@ -81,3 +89,15 @@ class TestRegisterCheckBook(TransactionCase):
         self.checkbook.check_ids[1].date_due = jd.date(1398, 11, 14).togregorian()
         self.assertEqual(self.checkbook.check_ids[0].date_due_text, 'چهاردهم دی یک هزار و سیصد و نود و هشت')
         self.assertEqual(self.checkbook.check_ids[1].date_due_text, 'چهاردهم بهمن یک هزار و سیصد و نود و هشت')
+
+    def test_cancel_all(self):
+        self.checkbook_ct.check_ids[0].state = 'delivered'
+        self.checkbook_ct.check_ids[1].state = 'cleaned'
+        self.checkbook_ct.check_ids[2].state = 'bounced'
+        self.checkbook_ct.check_ids[3].state = 'draft'
+        self.checkbook_ct.check_ids[4].state = 'printed'
+        self.assertEqual(len(self.checkbook_ct.check_ids.filtered(lambda x: x.state in ('new', 'draft', 'printed'))), 5)
+        self.checkbook_ct.cancel_all()
+        self.assertEqual(len(self.checkbook_ct.check_ids.filtered(lambda x: x.state in ('new', 'draft', 'printed'))), 0)
+        self.assertEqual(len(self.checkbook_ct.check_ids.filtered(lambda x: x.state == 'canceled')), 5)
+        self.assertEqual(self.checkbook_ct.active, False)
