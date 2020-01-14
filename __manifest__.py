@@ -9,11 +9,15 @@
     'depends': ['account'
 
                 ],
-    'data': ['security/treasury_security.xml',
+    'data': ['security/treasury_groups.xml',
              'security/ir.model.access.csv',
              'report/print_check.xml',
              'report/check_report.xml',
-             'views/treasury.xml',
+             'data/ir_sequence_data.xml',
+             'views/treasury_menus.xml',
+             'views/treasury_checkbook_views.xml',
+             'views/treasury_check_views.xml',
+             'views/treasury_incoming_views.xml',
              ],
     'demo': [],
 }
