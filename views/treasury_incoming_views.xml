@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="treasury_incoming_view_form" model="ir.ui.view">
+        <field name="name">treasury.incoming.view.form</field>
+        <field name="model">treasury.incoming</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!--`bounce` button visible if state is `undeposited` and due_date <= today-->
+                    <button name="set_in_bank" string="send to bank" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','!=','undeposited')]}"/>
+                    <button name="set_in_bank" string="resend to bank" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','not in',['bounced', 'sued'])]}"/>
+                    <button name="set_bounced" string="bounce" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','!=','in bank')]}"/>
+                    <button name="set_sued" string="sue" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','!=','bounced')]}"/>
+                    <button name="set_returned" string="return" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','=','returned')]}"/>
+                    <button name="set_canceled" string="cancel" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','not in',['undeposited', 'bounced', 'sued'])]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="number"/>
+                            <field name="type"/>
+                            <field name="name"/>
+                            <field name="received_date"/>
+                            <field name="due_date"/>
+                            <field name="due_state"/>
+                        </group>
+                        <group>
+                            <field name="amount"/>
+                            <field name="description"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="issuer"/>
+                            <field name="purpose"/>
+                            <field name="transferred_to"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="treasury_incoming_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Treasury Incoming</field>
+        <field name="res_model">treasury.incoming</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first check!
+            </p>
+        </field>
+    </record>
+</odoo>
