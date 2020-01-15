@@ -74,18 +74,22 @@ class TreasuryIncoming(models.Model):
         current_date = datetime.date.today()
         if operator == '=':
             if value == 'overdue':
-                return self.search([('due_date', '<', current_date)])
+                return [('due_date', '<', current_date)]
             elif value == 'due':
-                return self.search([('due_date', '=', current_date)])
+                return [('due_date', '=', current_date)]
             elif value == 'undue':
-                return self.search([('due_date', '>', current_date)])
+                return [('due_date', '>', current_date)]
+            else:
+                return [('due_date', '=', False)]
         elif operator == '!=':
             if value == 'overdue':
-                return self.search([('due_date', '>=', current_date)])
+                return [('due_date', '>=', current_date)]
             elif value == 'due':
-                return self.search(['|', ('due_date', '<', current_date), ('due_date', '>', current_date)])
+                return ['|', ('due_date', '<', current_date), ('due_date', '>', current_date)]
             elif value == 'undue':
-                return self.search([('due_date', '<=', current_date)])
+                return [('due_date', '<=', current_date)]
+            else:
+                return [('due_date', '=', False)]
         else:
             raise NotImplementedError
 
