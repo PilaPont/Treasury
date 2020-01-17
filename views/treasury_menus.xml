@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <menuitem id="treasury_checkbook_menu_main" name="Treasury" web_icon=""/>
 
-    <menuitem id="treasury_configuration_menu" name="Treasury Configuration" parent="treasury_checkbook_menu_main"/>
+    <menuitem id="treasury_configuration_menu" name="Treasury Configuration" parent="treasury_checkbook_menu_main"
+              sequence="1000"/>
     <menuitem id="treasury_checkbook_menu" name="Treasury Checkbook" parent="treasury_configuration_menu"
               action="treasury_checkbook_action_view_tree"/>
 
