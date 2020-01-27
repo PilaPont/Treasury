@@ -4,11 +4,11 @@ from odoo.tools import jadatetime as jd
 
 
 class TreasuryCheck(models.Model):
-    _name = "treasury.check"
+    _name = "treasury.outgoing"
     _inherit = 'mail.thread'
-    _description = "Treasury Check"
+    _description = "Treasury Outgoing"
 
-    name = fields.Char(string='Check No.', readonly=True, required=True)
+    name = fields.Char(string='Number', readonly=True, required=True)
     date_issue = fields.Datetime(string='Issue Date')
     date_due = fields.Date(string='Due Date')
     date_due_text = fields.Char(string='Due Date Text', compute='_compute_due_date_text')
@@ -22,6 +22,21 @@ class TreasuryCheck(models.Model):
     date_delivery = fields.Date(string='Delivery Date')
     company_id = fields.Many2one('res.company', string='company',
                                  related='checkbook_id.company_id', readonly=True)
+    type = fields.Selection([
+        ('check', 'Check'),
+        ('promissory note', 'Promissory note'),
+        ('bank_guaranty', 'Bank_guaranty'), ],
+        string='type')
+    guaranty_type = fields.Selection([
+        ('tender guaranty', 'Tender guaranty'),
+        ('retention money guaranty', 'Retention money guaranty'),
+        ('performance guaranty', 'Performance guaranty'),
+        ('payment guaranty', 'Payment guaranty'),
+        ('customs guaranty', 'Customs guaranty'),
+        ('advanced payment guaranty', 'Advanced payment guaranty'),
+        ('other', 'Other')],
+        default='new', readonly=True,
+        track_visibility='onchange')
     state = fields.Selection([
         ('new', 'New'),
         ('draft', 'Draft'),
@@ -53,6 +68,13 @@ class TreasuryCheck(models.Model):
     def _compute_description(self):
         for check in self:
             check.description = '{} {} {}'.format(self.beneficiary.name, _('for'), self.reason)
+
+    @api.onchange('type')
+    def _onchange_select_count(self):
+        try:
+            self.count = int(self.select_count)
+        except Exception as e:
+            print(e)
 
     @api.multi
     def print_check(self):
