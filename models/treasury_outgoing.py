@@ -1,9 +1,9 @@
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, exceptions
 from odoo.tools.num2fawords import ordinal_words, words
 from odoo.tools import jadatetime as jd
 
 
-class TreasuryCheck(models.Model):
+class TreasuryOutgoing(models.Model):
     _name = "treasury.outgoing"
     _inherit = 'mail.thread'
     _description = "Treasury Outgoing"
@@ -18,10 +18,13 @@ class TreasuryCheck(models.Model):
     reason = fields.Char(string='Reason')
     beneficiary = fields.Many2one('res.partner', string='Beneficiary')
     description = fields.Char(string='Description', compute='_compute_description')
-    checkbook_id = fields.Many2one('treasury.checkbook', string='Checkbook')
+    checkbook_id = fields.Many2one('treasury.checkbook', string='Checkbook', readonly=True)
     date_delivery = fields.Date(string='Delivery Date')
+    bond_type = fields.Many2one('treasury.bond_type', string='Bond type')
     company_id = fields.Many2one('res.company', string='company',
                                  related='checkbook_id.company_id', readonly=True)
+    guaranty = fields.Boolean(string='Guaranty', readonly=True)
+    expected_return_by = fields.Date(string='Expected return by')
     type = fields.Selection([
         ('check', 'Check'),
         ('promissory note', 'Promissory note'),
@@ -35,8 +38,7 @@ class TreasuryCheck(models.Model):
         ('customs guaranty', 'Customs guaranty'),
         ('advanced payment guaranty', 'Advanced payment guaranty'),
         ('other', 'Other')],
-        default='new', readonly=True,
-        track_visibility='onchange')
+        string='Guaranty type')
     state = fields.Selection([
         ('new', 'New'),
         ('draft', 'Draft'),
@@ -47,10 +49,9 @@ class TreasuryCheck(models.Model):
         ('canceled', 'Canceled')],
         default='new', readonly=True,
         track_visibility='onchange')
-    purpose = fields.Selection([
-        ('normal', 'Normal'),
-        ('guaranty', 'Guaranty')],
-        required=True, default='normal')
+
+    _sql_constraints = [('unique_type_name', 'unique(name, type)',
+                         'This name is duplicate!')]  # todo: Make sure it works!
 
     @api.multi
     def _compute_due_date_text(self):
@@ -70,11 +71,16 @@ class TreasuryCheck(models.Model):
             check.description = '{} {} {}'.format(self.beneficiary.name, _('for'), self.reason)
 
     @api.onchange('type')
-    def _onchange_select_count(self):
-        try:
-            self.count = int(self.select_count)
-        except Exception as e:
-            print(e)
+    def _onchange_guaranty(self):
+        for doc in self:
+            doc.guaranty = False if doc.type == 'check' else True
+
+    @api.model
+    def create(self, vals):
+        if self.type == 'check' and not self.checkbook_id:
+            raise exceptions.UserError('You can not create a check from here. Please create a checkbook!')
+        else:
+            return super(TreasuryOutgoing, self).create(vals)
 
     @api.multi
     def print_check(self):

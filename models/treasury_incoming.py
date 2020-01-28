@@ -17,19 +17,22 @@ class TreasuryIncoming(models.Model):
     currency_id = fields.Many2one('res.currency', string='currency_id',
                                   default=lambda self: self.env.ref('base.IRR').id)
     amount = fields.Monetary(currency_field='currency_id', string='Amount', required=True)
-    issuer = fields.Many2one('res.partner', string='Issuer', required=True)
+    consignee_id = fields.Many2one('res.partner', string='Consignee', required=True)
+    issued_by = fields.Char(string='Issued by')
+    scan = fields.Binary(string="Scan", attachment=True, requierd=True)
+    guaranty = fields.Boolean(string='Guaranty', readonly=True)
     active = fields.Boolean(string='active', compute='_compute_active', store=True)
     transferred_to = fields.Many2one('res.partner', string='Transferred To')
     description = fields.Text(string='Description')
     company_id = fields.Many2one('res.company', string='company',
                                  default=lambda self: self.env['res.company']._company_default_get())
+    bond_type = fields.Many2one('treasury.bond_type', string='Bond type')
     due_state = fields.Selection([
         ('undue', 'Undue'),
         ('due', 'Due'),
         ('overdue', 'overdue')],
         compute='_compute_due',
         search='_search_due')
-
     purpose = fields.Selection([
         ('normal', 'Normal'),
         ('guaranty', 'Guaranty')],
@@ -37,17 +40,28 @@ class TreasuryIncoming(models.Model):
     type = fields.Selection([
         ('check', 'Check'),
         ('promissory note', 'Promissory note'),
-        ('bond', 'Bond')],
+        ('bond', 'Bond'),
+        ('lc', 'LC'),
+        ('bank_guaranty', 'Bank_guaranty')],
         required=True, default='check')
-
+    guaranty_type = fields.Selection([
+        ('tender guaranty', 'Tender guaranty'),
+        ('retention money guaranty', 'Retention money guaranty'),
+        ('performance guaranty', 'Performance guaranty'),
+        ('payment guaranty', 'Payment guaranty'),
+        ('customs guaranty', 'Customs guaranty'),
+        ('advanced payment guaranty', 'Advanced payment guaranty'),
+        ('other', 'Other')],
+        string='Guaranty type')
     state = fields.Selection([
+        ('draft', 'Draft'),
         ('undeposited', 'Undeposited'),
-        ('in bank', 'in bank'),
+        ('in bank', 'In bank'),
         ('collected', 'Collected'),
         ('transferred', 'Transferred'),
         ('bounced', 'Bounced'),
         ('sued', 'Sued'),
-        ('returned', 'returned'),
+        ('returned', 'Returned'),
         ('canceled', 'Canceled')],
         required=True, readonly=True,
         track_visibility='onchange',
@@ -68,6 +82,16 @@ class TreasuryIncoming(models.Model):
             self.due_state = 'due'
         else:
             self.due_state = 'undue'
+
+    @api.onchange('type')
+    def _onchange_guaranty(self):
+        for doc in self:
+            doc.guaranty = False if doc.type not in ['bank_guaranty', 'promissory note'] else True
+
+    @api.onchange('consignee_id')
+    def _onchange_issued_by(self):
+        for doc in self:
+            doc.issued_by = doc.consignee_id.display_name
 
     @api.multi
     def _search_due(self, operator, value):

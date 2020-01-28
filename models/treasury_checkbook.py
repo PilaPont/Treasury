@@ -10,7 +10,7 @@ class TreasuryCheckbook(models.Model):
                                       related='journal_id.bank_account_id', readonly=True)
     company_id = fields.Many2one('res.company', string='company',
                                  default=lambda self: self.env['res.company']._company_default_get())
-    check_ids = fields.One2many('treasury.check', string='Check', inverse_name='checkbook_id',
+    check_ids = fields.One2many('treasury.outgoing', string='Check', inverse_name='checkbook_id',
                                 required=True)
     first_serial_no = fields.Integer(string='First Check Serial No.', required=True)
     series_no = fields.Integer(string='Series No.', required=True)
@@ -47,7 +47,8 @@ class TreasuryCheckbook(models.Model):
     @api.multi
     def _compute_next(self):
         for check_book in self:
-            check_book.next_check = self.env['treasury.check'].search([('state', '=', 'new')], limit=1).get_name()
+            check_book.next_check = self.env['treasury.outgoing'].search(
+                [('state', '=', 'new'), ('type', '=', 'check')], limit=1).get_name()  # todo: Make sure it works!
 
     @api.multi
     @api.depends('journal_id.name', 'first_serial_no', 'count')
@@ -73,9 +74,10 @@ class TreasuryCheckbook(models.Model):
     def create(self, vals):
         check_book = super(TreasuryCheckbook, self).create(vals)
         for n in range(check_book.count):
-            self.env['treasury.check'].create({
+            self.env['treasury.outgoing'].create({
                 'name': '{}/{}'.format(check_book.series_no, int(check_book.first_serial_no) + n),
-                'checkbook_id': check_book.id
+                'checkbook_id': check_book.id,
+                'type': 'check'
             })
         return check_book
 
