@@ -5,7 +5,7 @@ class TreasuryCheckbook(models.Model):
     _name = "treasury.checkbook"
     _description = "Treasury Checkbook"
 
-    journal_id = fields.Many2one('account.journal', string='Journal', required=True)
+    journal_id = fields.Many2one('account.journal', string='Bank Account Journal', required=True)
     bank_account_id = fields.Many2one('res.partner.bank', string='Bank Account',
                                       related='journal_id.bank_account_id', readonly=True)
     company_id = fields.Many2one('res.company', string='company',
