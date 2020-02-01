@@ -87,6 +87,9 @@ class TreasuryOutgoing(models.Model):
     @api.onchange('type')
     def _onchange_type(self):
         self.security_type = None
+        self.guaranty = False
+        if self.type in ['bank_guaranty', 'promissory_note']:
+            self.guaranty = True
         return {'domain': {'security_type': [('type', '=', self.type)]}}
 
 
