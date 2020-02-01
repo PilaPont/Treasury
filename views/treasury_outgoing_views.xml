@@ -40,7 +40,7 @@
                             <field name="date_due" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
                                    required="1"/>
                             <field name="guaranty"
-                                   attrs="{'readonly':[('type','in',['promissory_note', 'bank_guaranty'])]}"
+                                   attrs="{'readonly':[('type','in',['promissory note', 'bank_guaranty'])]}"
                                    required="1"/>
                             <field name="expected_return_by"
                                    attrs="{'invisible':[('guaranty','==',False)], 'required':[('guaranty','==',True)]}"/>
