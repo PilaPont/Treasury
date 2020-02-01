@@ -34,8 +34,7 @@
                         <group>
                             <field name="type" invisible="1"/>
                             <field name="select_type"
-                                   attrs="{'readonly':[('state','not in',['new', 'draft'])], 'invisible':[('type','==','check')]}"
-                                   required="1"/>
+                                   attrs="{'readonly':[('state','not in',['new', 'draft'])], 'invisible':[('type','==','check')], 'required':[('type','!=','check')]}"/>
                             <field name="name" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"/>
                             <field name="date_due" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
                                    required="1"/>
@@ -50,8 +49,9 @@
 
                         </group>
                         <group>
-                            <field name="security_type" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
-                                   required="1"/>
+                            <field name="security_type"
+                                   attrs="{'readonly':[('state','not in',['new', 'draft'])], 'required':[('type','!=','check')]}"
+                                   domain="[('type', '=', 'type')]"/>
                             <field name="amount" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
                                    required="1"/>
                             <field name="beneficiary" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
