@@ -76,14 +76,13 @@ class TreasuryIncoming(models.Model):
             self.due_state = 'undue'
 
     @api.onchange('type')
-    def _onchange_guaranty(self):
-        for doc in self:
-            doc.guaranty = False if doc.type not in ['bank_guaranty', 'promissory_note'] else True
+    def _onchange_type(self):
+        if self.type in ['bank_guaranty', 'promissory_note']:
+            self.guaranty = True
 
     @api.onchange('consignee_id')
-    def _onchange_issued_by(self):
-        for doc in self:
-            doc.issued_by = doc.consignee_id.display_name
+    def _onchange_consignee_id(self):
+        self.issued_by = self.consignee_id.display_name
 
     @api.multi
     def _search_due(self, operator, value):

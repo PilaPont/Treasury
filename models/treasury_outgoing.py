@@ -32,6 +32,16 @@ class TreasuryOutgoing(models.Model):
         ('lc', 'LC'),
         ('bank_guaranty', 'Bank_guaranty')],
         required=True)
+    select_type = fields.Selection([
+        ('promissory_note', 'Promissory note'),
+        ('bond', 'Bond'),
+        ('lc', 'LC'),
+        ('bank_guaranty', 'Bank_guaranty')],
+        compute='_compute_display_type',
+        inverse='_set_select_type',
+        store=False,
+        required=True)
+
     state = fields.Selection([
         ('new', 'New'),
         ('draft', 'Draft'),
@@ -44,39 +54,41 @@ class TreasuryOutgoing(models.Model):
         track_visibility='onchange')
 
     _sql_constraints = [('unique_type_name', 'unique(name, type)',
-                         'This name is duplicate!')]  # todo: Make sure it works!
+                         'This name is duplicate!')]
 
     @api.multi
     def _compute_due_date_text(self):
-        for check in self:
-            check.date_due_text = ordinal_words(jd.date.fromgregorian(date=self.date_due).day) \
+        for doc in self:
+            doc.date_due_text = ordinal_words(jd.date.fromgregorian(date=self.date_due).day) \
                                   + jd.date.fromgregorian(date=self.date_due).aslocale('fa_IR').strftime(' %B ') \
                                   + words(jd.date.fromgregorian(date=self.date_due).year)
 
     @api.multi
     def _compute_amount_text(self):
-        for check in self:
-            check.amount_text = words(self.amount)
+        for doc in self:
+            doc.amount_text = words(self.amount)
 
     @api.multi
     def _compute_description(self):
-        for check in self:
-            check.description = '{} {} {}'.format(self.beneficiary.name, _('for'), self.reason)
+        for doc in self:
+            doc.description = '{} {} {}'.format(self.beneficiary.name, _('for'), self.reason)
+
+    @api.multi
+    @api.depends('type')
+    def _compute_display_type(self):
+        for doc in self:
+            doc.select_type = doc.type if doc.type != 'check' else False
+
+    @api.onchange('select_type')
+    def _set_select_type(self):
+        for doc in self:
+            doc.type = doc.select_type
 
     @api.onchange('type')
-    def _onchange_guaranty_type(self):
-        if self.type in ['promissory_note', 'bank_guaranty']:
-            self.guaranty = True
-        if self.type == 'check':
-            self.type = 'promissory_note'
-            raise exceptions.UserError('You can not create a check from here. Please create a checkbook!')
+    def _onchange_type(self):
+        self.security_type = None
+        return {'domain': {'security_type': [('type', '=', self.type)]}}
 
-    # @api.model
-    # def create(self, vals):
-    #     if self.type == 'check' and not self.checkbook_id:
-    #         raise exceptions.UserError('You can not create a check from here. Please create a checkbook!')
-    #     else:
-    #         return super(TreasuryOutgoing, self).create(vals)
 
     @api.multi
     def print_check(self):

@@ -32,10 +32,11 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="type"
+                            <field name="type" invisible="1"/>
+                            <field name="select_type"
                                    attrs="{'readonly':[('state','not in',['new', 'draft'])], 'invisible':[('type','==','check')]}"
                                    required="1"/>
-                            <field name="name" attrs="{'readonly':[('type','=','check')]}"/>
+                            <field name="name" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"/>
                             <field name="date_due" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
                                    required="1"/>
                             <field name="guaranty"
