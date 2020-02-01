@@ -13,14 +13,14 @@ class TreasuryIncoming(models.Model):
     name = fields.Char(string='Domestic Number ', required=True, copy=False, readonly=True,
                        index=True, default=lambda self: _('New'))
     received_date = fields.Date(string='Receive Date', required=True)
-    due_date = fields.Date(string='Due Date', required=True)
+    due_date = fields.Date(string='Due Date')
     currency_id = fields.Many2one('res.currency', string='currency_id',
                                   default=lambda self: self.env.ref('base.IRR').id)
     amount = fields.Monetary(currency_field='currency_id', string='Amount', required=True)
     consignee_id = fields.Many2one('res.partner', string='Consignee', required=True)
     issued_by = fields.Char(string='Issued by')
     scan = fields.Binary(string="Scan", attachment=True, requierd=True)
-    guaranty = fields.Boolean(string='Guaranty', readonly=True)
+    guaranty = fields.Boolean(string='Guaranty')
     active = fields.Boolean(string='active', compute='_compute_active', store=True)
     transferred_to = fields.Many2one('res.partner', string='Transferred To')
     description = fields.Text(string='Description')
@@ -62,21 +62,26 @@ class TreasuryIncoming(models.Model):
     @api.multi
     @api.depends('state')
     def _compute_active(self):
-        for check in self:
-            check.active = False if check.state in ('collected', 'returned', 'canceled', 'transferred') else True
+        for doc in self:
+            doc.active = False if doc.state in ('collected', 'returned', 'canceled', 'transferred') else True
 
     @api.multi
+    @api.depends('due_date')
     def _compute_due(self):
-        current_date = datetime.date.today()
-        if self.due_date < current_date:
-            self.due_state = 'overdue'
-        elif self.due_date == current_date:
-            self.due_state = 'due'
-        else:
+        if not self.due_date:
             self.due_state = 'undue'
+        else:
+            current_date = datetime.date.today()
+            if self.due_date < current_date:
+                self.due_state = 'overdue'
+            elif self.due_date == current_date:
+                self.due_state = 'due'
+            else:
+                self.due_state = 'undue'
 
     @api.onchange('type')
     def _onchange_type(self):
+        self.guaranty = False
         if self.type in ['bank_guaranty', 'promissory_note']:
             self.guaranty = True
 

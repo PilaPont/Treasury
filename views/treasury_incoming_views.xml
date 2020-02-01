@@ -28,12 +28,12 @@
                             <field name="type"/>
                             <field name="name"/>
                             <field name="guaranty"
-                                   attrs="{'readonly':[('type','in',['promissory note', 'bank_guaranty'])]}"
+                                   attrs="{'readonly':[('type','in',['promissory_note', 'bank_guaranty'])]}"
                                    required="1"/>
                             <field name="expected_return_by"
-                                   attrs="{'invisible':[('guaranty','==',False)], 'required':[('guaranty','==',True)]}"/>
+                                   attrs="{'invisible':[('guaranty','=',False)], 'required':[('guaranty','=',True)]}"/>
                             <field name="received_date"/>
-                            <field name="due_date"/>
+                            <field name="due_date" attrs="{'required':['|',('type','in',['bond','lc','bank_guaranty']),'&amp;', ('type','=','check'),('guaranty','=',False)]}"/>
                             <field name="due_state"/>
                         </group>
                         <group>
@@ -61,7 +61,7 @@
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create your first check!
+                Create your first incoming!
             </p>
         </field>
     </record>
