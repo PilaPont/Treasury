@@ -14,10 +14,12 @@
              'report/print_check.xml',
              'report/check_report.xml',
              'data/ir_sequence_data.xml',
-             'views/treasury_menus.xml',
+             'data/treasury_security_type_data.xml',
              'views/treasury_checkbook_views.xml',
-             'views/treasury_check_views.xml',
+             'views/treasury_outgoing_views.xml',
              'views/treasury_incoming_views.xml',
+             'views/treasury_menus.xml',
+
              ],
     'demo': [],
 }

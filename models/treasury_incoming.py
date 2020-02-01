@@ -26,7 +26,8 @@ class TreasuryIncoming(models.Model):
     description = fields.Text(string='Description')
     company_id = fields.Many2one('res.company', string='company',
                                  default=lambda self: self.env['res.company']._company_default_get())
-    bond_type = fields.Many2one('treasury.bond_type', string='Bond type')
+    security_type = fields.Many2one('treasury.security_type', string='Security type')
+    expected_return_by = fields.Date(string='Expected return by')
     due_state = fields.Selection([
         ('undue', 'Undue'),
         ('due', 'Due'),
@@ -39,20 +40,11 @@ class TreasuryIncoming(models.Model):
         required=True, default='normal')
     type = fields.Selection([
         ('check', 'Check'),
-        ('promissory note', 'Promissory note'),
+        ('promissory_note', 'Promissory note'),
         ('bond', 'Bond'),
         ('lc', 'LC'),
         ('bank_guaranty', 'Bank_guaranty')],
-        required=True, default='check')
-    guaranty_type = fields.Selection([
-        ('tender guaranty', 'Tender guaranty'),
-        ('retention money guaranty', 'Retention money guaranty'),
-        ('performance guaranty', 'Performance guaranty'),
-        ('payment guaranty', 'Payment guaranty'),
-        ('customs guaranty', 'Customs guaranty'),
-        ('advanced payment guaranty', 'Advanced payment guaranty'),
-        ('other', 'Other')],
-        string='Guaranty type')
+        required=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('undeposited', 'Undeposited'),
@@ -86,7 +78,7 @@ class TreasuryIncoming(models.Model):
     @api.onchange('type')
     def _onchange_guaranty(self):
         for doc in self:
-            doc.guaranty = False if doc.type not in ['bank_guaranty', 'promissory note'] else True
+            doc.guaranty = False if doc.type not in ['bank_guaranty', 'promissory_note'] else True
 
     @api.onchange('consignee_id')
     def _onchange_issued_by(self):

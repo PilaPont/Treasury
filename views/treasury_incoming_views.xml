@@ -27,15 +27,21 @@
                             <field name="number"/>
                             <field name="type"/>
                             <field name="name"/>
+                            <field name="guaranty"
+                                   attrs="{'readonly':[('type','in',['promissory note', 'bank_guaranty'])]}"
+                                   required="1"/>
+                            <field name="expected_return_by"
+                                   attrs="{'invisible':[('guaranty','==',False)], 'required':[('guaranty','==',True)]}"/>
                             <field name="received_date"/>
                             <field name="due_date"/>
                             <field name="due_state"/>
                         </group>
                         <group>
+                            <field name="security_type" required="1"/>
                             <field name="amount"/>
                             <field name="description"/>
                             <field name="company_id" groups="base.group_multi_company"/>
-                            <field name="issuer"/>
+                            <field name="consignee_id"/>
                             <field name="purpose"/>
                             <field name="transferred_to"/>
                         </group>

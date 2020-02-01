@@ -18,7 +18,7 @@
     <report
             string="Check"
             id="action_print_check"
-            model="treasury.check"
+            model="treasury.outgoing"
             report_type="qweb-pdf"
             name="treasury.print_check"
             file="treasury.print_check"

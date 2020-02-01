@@ -8,7 +8,7 @@ class TreasuryOutgoing(models.Model):
     _inherit = 'mail.thread'
     _description = "Treasury Outgoing"
 
-    name = fields.Char(string='Number', readonly=True, required=True)
+    name = fields.Char(string='Number', required=True)
     date_issue = fields.Datetime(string='Issue Date')
     date_due = fields.Date(string='Due Date')
     date_due_text = fields.Char(string='Due Date Text', compute='_compute_due_date_text')
@@ -20,25 +20,18 @@ class TreasuryOutgoing(models.Model):
     description = fields.Char(string='Description', compute='_compute_description')
     checkbook_id = fields.Many2one('treasury.checkbook', string='Checkbook', readonly=True)
     date_delivery = fields.Date(string='Delivery Date')
-    bond_type = fields.Many2one('treasury.bond_type', string='Bond type')
+    security_type = fields.Many2one('treasury.security_type', string='Security type')
     company_id = fields.Many2one('res.company', string='company',
-                                 related='checkbook_id.company_id', readonly=True)
+                                 default=lambda self: self.env['res.company']._company_default_get())
     guaranty = fields.Boolean(string='Guaranty', readonly=True)
     expected_return_by = fields.Date(string='Expected return by')
     type = fields.Selection([
         ('check', 'Check'),
-        ('promissory note', 'Promissory note'),
-        ('bank_guaranty', 'Bank_guaranty'), ],
-        string='type')
-    guaranty_type = fields.Selection([
-        ('tender guaranty', 'Tender guaranty'),
-        ('retention money guaranty', 'Retention money guaranty'),
-        ('performance guaranty', 'Performance guaranty'),
-        ('payment guaranty', 'Payment guaranty'),
-        ('customs guaranty', 'Customs guaranty'),
-        ('advanced payment guaranty', 'Advanced payment guaranty'),
-        ('other', 'Other')],
-        string='Guaranty type')
+        ('promissory_note', 'Promissory note'),
+        ('bond', 'Bond'),
+        ('lc', 'LC'),
+        ('bank_guaranty', 'Bank_guaranty')],
+        required=True)
     state = fields.Selection([
         ('new', 'New'),
         ('draft', 'Draft'),
@@ -71,16 +64,19 @@ class TreasuryOutgoing(models.Model):
             check.description = '{} {} {}'.format(self.beneficiary.name, _('for'), self.reason)
 
     @api.onchange('type')
-    def _onchange_guaranty(self):
-        for doc in self:
-            doc.guaranty = False if doc.type == 'check' else True
-
-    @api.model
-    def create(self, vals):
-        if self.type == 'check' and not self.checkbook_id:
+    def _onchange_guaranty_type(self):
+        if self.type in ['promissory_note', 'bank_guaranty']:
+            self.guaranty = True
+        if self.type == 'check':
+            self.type = 'promissory_note'
             raise exceptions.UserError('You can not create a check from here. Please create a checkbook!')
-        else:
-            return super(TreasuryOutgoing, self).create(vals)
+
+    # @api.model
+    # def create(self, vals):
+    #     if self.type == 'check' and not self.checkbook_id:
+    #         raise exceptions.UserError('You can not create a check from here. Please create a checkbook!')
+    #     else:
+    #         return super(TreasuryOutgoing, self).create(vals)
 
     @api.multi
     def print_check(self):

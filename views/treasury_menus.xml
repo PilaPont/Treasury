@@ -8,8 +8,8 @@
               action="treasury_checkbook_action_view_tree"/>
 
     <menuitem id="treasury_payment_menu" name="Treasury Payment" parent="treasury_checkbook_menu_main"/>
-    <menuitem id="treasury_check_menu" name="Treasury Check" parent="treasury_payment_menu"
-              action="treasury_check_action_view_tree"/>
+    <menuitem id="treasury_outgoing_menu" name="Treasury Outgoing" parent="treasury_payment_menu"
+              action="treasury_outgoing_action_view_tree"/>
 
     <menuitem id="treasury_receive_menu" name="Treasury Receive" parent="treasury_checkbook_menu_main"/>
     <menuitem id="treasury_incoming_menu" name="Treasury incoming" parent="treasury_receive_menu"
