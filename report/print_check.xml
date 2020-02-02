@@ -10,8 +10,8 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div style="position:relative; margin:0 auto; width:17cm; direction:rtl">
-                    <div t-field="doc.date_due" style="position:absolute; right:2.66cm; top:0.9cm;"/>
-                    <div t-field="doc.date_due_text" style="position:absolute; right:3.14cm; top:1.58cm;"/>
+                    <div t-field="doc.due_date" style="position:absolute; right:2.66cm; top:0.9cm;"/>
+                    <div t-field="doc.due_date_text" style="position:absolute; right:3.14cm; top:1.58cm;"/>
                     <div style="position:absolute; right:4.65cm; top:2.7cm; overflow:hidden; height:1.5em">
                         <span t-field="doc.amount_text"/>
                         <span>*********************************</span>

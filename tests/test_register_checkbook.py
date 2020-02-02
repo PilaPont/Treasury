@@ -81,14 +81,14 @@ class TestRegisterCheckBook(TransactionCase):
         self.checkbook.check_ids[0].amount = 1363
         self.assertEqual(self.checkbook.check_ids[0].amount_text, 'یک هزار و سیصد و شصت و سه')
 
-    def test_check_date_due_text(self):
+    def test_check_due_date_text(self):
         """
         check date should be correct in written in Persian
         """
-        self.checkbook.check_ids[0].date_due = datetime.date(2020, 1, 4)
-        self.checkbook.check_ids[1].date_due = jd.date(1398, 11, 14).togregorian()
-        self.assertEqual(self.checkbook.check_ids[0].date_due_text, 'چهاردهم دی یک هزار و سیصد و نود و هشت')
-        self.assertEqual(self.checkbook.check_ids[1].date_due_text, 'چهاردهم بهمن یک هزار و سیصد و نود و هشت')
+        self.checkbook.check_ids[0].due_date = datetime.date(2020, 1, 4)
+        self.checkbook.check_ids[1].due_date = jd.date(1398, 11, 14).togregorian()
+        self.assertEqual(self.checkbook.check_ids[0].due_date_text, 'چهاردهم دی یک هزار و سیصد و نود و هشت')
+        self.assertEqual(self.checkbook.check_ids[1].due_date_text, 'چهاردهم بهمن یک هزار و سیصد و نود و هشت')
 
     def test_cancel_all(self):
         self.checkbook_ct.check_ids[0].state = 'delivered'

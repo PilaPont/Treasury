@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!--decoration-danger="state=='delivered' or (date_due and date_due &lt;= current_date)"-->
+    <!--decoration-danger="state=='delivered' or (due_date and due_date &lt;= current_date)"-->
     <record id="treasury_outgoing_view_tree" model="ir.ui.view">
         <field name="name">treasury.outgoing.view.tree</field>
         <field name="model">treasury.outgoing</field>
@@ -9,7 +9,7 @@
                   decoration-bf="state=='delivered'"
                   decoration-muted="state=='canceled' or state=='cleaned'">
                 <field name="name"/>
-                <field name="date_due"/>
+                <field name="due_date"/>
                 <field name="amount"/>
                 <field name="beneficiary"/>
                 <field name="reason"/>
@@ -37,7 +37,7 @@
                             <field name="type" invisible="1"/>
                             <field name="select_type"
                                    attrs="{'readonly':[('state','not in',['new', 'draft'])], 'invisible':[('type','==','check')], 'required':[('type','!=','check')]}"/>
-                            <field name="date_due" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
+                            <field name="due_date" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
                                    required="1"/>
                             <field name="guaranty"
                                    attrs="{'readonly':[('type','in',['promissory_note', 'bank_guaranty'])]}"
