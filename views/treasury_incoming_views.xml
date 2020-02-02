@@ -24,9 +24,9 @@
                 <sheet>
                     <group>
                         <group>
+                            <field name="name"/>
                             <field name="number"/>
                             <field name="type"/>
-                            <field name="name"/>
                             <field name="guaranty"
                                    attrs="{'readonly':[('type','in',['promissory_note', 'bank_guaranty'])]}"
                                    required="1"/>
