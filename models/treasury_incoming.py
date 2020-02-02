@@ -6,45 +6,26 @@ from odoo import api, fields, models, _
 
 class TreasuryIncoming(models.Model):
     _name = "treasury.incoming"
-    _inherit = 'mail.thread'
+    _inherit = 'treasury.in_out_going'
     _description = "Treasury Incoming"
 
-    number = fields.Char(string='Number', required=True)
-    name = fields.Char(string='Domestic Number ', required=True, copy=False, readonly=True,
-                       index=True, default=lambda self: _('New'))
+
     received_date = fields.Date(string='Receive Date', required=True)
-    due_date = fields.Date(string='Due Date')
-    currency_id = fields.Many2one('res.currency', string='currency_id',
-                                  default=lambda self: self.env.ref('base.IRR').id)
-    amount = fields.Monetary(currency_field='currency_id', string='Amount', required=True)
+
     consignee_id = fields.Many2one('res.partner', string='Consignee', required=True)
     issued_by = fields.Char(string='Issued by')
     scan = fields.Binary(string="Scan", attachment=True, requierd=True)
-    guaranty = fields.Boolean(string='Guaranty')
     active = fields.Boolean(string='active', compute='_compute_active', store=True)
     transferred_to = fields.Many2one('res.partner', string='Transferred To')
     description = fields.Text(string='Description')
-    company_id = fields.Many2one('res.company', string='company',
-                                 default=lambda self: self.env['res.company']._company_default_get())
-    security_type = fields.Many2one('treasury.security_type', string='Security type')
-    expected_return_by = fields.Date(string='Expected return by')
+
     due_state = fields.Selection([
         ('undue', 'Undue'),
         ('due', 'Due'),
         ('overdue', 'overdue')],
         compute='_compute_due',
         search='_search_due')
-    purpose = fields.Selection([
-        ('normal', 'Normal'),
-        ('guaranty', 'Guaranty')],
-        required=True, default='normal')
-    type = fields.Selection([
-        ('check', 'Check'),
-        ('promissory_note', 'Promissory note'),
-        ('bond', 'Bond'),
-        ('lc', 'LC'),
-        ('bank_guaranty', 'Bank_guaranty')],
-        required=True)
+
     state = fields.Selection([
         ('draft', 'Draft'),
         ('undeposited', 'Undeposited'),
@@ -79,12 +60,6 @@ class TreasuryIncoming(models.Model):
             else:
                 self.due_state = 'undue'
 
-    @api.onchange('type')
-    def _onchange_type(self):
-        self.guaranty = False
-        if self.type in ['bank_guaranty', 'promissory_note']:
-            self.guaranty = True
-
     @api.onchange('consignee_id')
     def _onchange_consignee_id(self):
         self.issued_by = self.consignee_id.display_name
@@ -112,12 +87,6 @@ class TreasuryIncoming(models.Model):
                 return [('due_date', '=', False)]
         else:
             raise NotImplementedError
-
-    @api.model
-    def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('treasury.incoming')
-        return super(TreasuryIncoming, self).create(vals)
 
     @api.multi
     def set_in_bank(self):

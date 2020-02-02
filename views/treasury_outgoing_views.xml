@@ -43,7 +43,7 @@
                                    attrs="{'readonly':[('type','in',['promissory_note', 'bank_guaranty'])]}"
                                    required="1"/>
                             <field name="expected_return_by"
-                                   attrs="{'invisible':[('guaranty','==',False)], 'required':[('guaranty','==',True)]}"/>
+                                   attrs="{'invisible':[('guaranty','=',False)], 'required':[('guaranty','=',True)]}"/>
                             <field name="checkbook_id" attrs="{'invisible':[('type','!=','check')]}"/>
                             <field name="company_id" groups="base.group_multi_company"
                                    attrs="{'readonly':[('state','not in',['new', 'draft'])]}" required="1"/>
