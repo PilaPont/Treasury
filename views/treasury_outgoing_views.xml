@@ -24,8 +24,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="print_check" string="print" type="object" class="btn-primary"/>
-                    <button name="deliver_check" string="deliver" type="object" class="btn-primary"
+                    <button name="print_doc" string="print" type="object" class="btn-primary"/>
+                    <button name="deliver_doc" string="deliver" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','printed')]}"/>
                     <field name="state" widget="statusbar"/>
                 </header>

@@ -40,8 +40,6 @@ class TreasuryOutgoing(models.Model):
         default='new', readonly=True,
         track_visibility='onchange')
 
-
-
     @api.multi
     def _compute_due_date_text(self):
         for doc in self:
@@ -71,10 +69,10 @@ class TreasuryOutgoing(models.Model):
             doc.type = doc.select_type
 
     @api.multi
-    def print_check(self):
+    def print_doc(self):
         self.state = 'printed'
         return self.env.ref('treasury.action_print_check').report_action(self, config=False)
 
     @api.multi
-    def deliver_check(self):
+    def deliver_doc(self):
         self.state = 'delivered'
