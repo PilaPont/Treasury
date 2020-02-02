@@ -8,6 +8,7 @@ class TreasurySecurityType(models.Model):
     name = fields.Char(string='Name', required=True)
     active = fields.Boolean(string='active', default=True)
     type = fields.Selection([
+        ('check', 'check'),
         ('promissory_note', 'Promissory note'),
         ('bond', 'Bond'),
         ('lc', 'LC'),

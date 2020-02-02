@@ -30,6 +30,10 @@
             <field name="name">promissory note</field>
             <field name="type">promissory_note</field>
         </record>
+        <record id="security_type_check" model="treasury.security_type">
+            <field name="name">check</field>
+            <field name="type">check</field>
+        </record>
 
     </data>
 </odoo>
