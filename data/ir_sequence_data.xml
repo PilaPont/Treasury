@@ -6,7 +6,7 @@
         <record id="seq_treasury_incoming" model="ir.sequence">
             <field name="name">Treasury Incoming</field>
             <field name="code">treasury.incoming</field>
-            <field name="prefix">IN%(year)s</field>
+            <field name="prefix">INS-</field>
             <field name="padding">4</field>
             <field name="company_id" eval="False"/>
         </record>
@@ -14,7 +14,7 @@
         <record id="seq_treasury_outgoing" model="ir.sequence">
             <field name="name">Treasury Outgoing</field>
             <field name="code">treasury.outgoing</field>
-            <field name="prefix">IN%(year)s</field>
+            <field name="prefix">OTS-</field>
             <field name="padding">4</field>
             <field name="company_id" eval="False"/>
         </record>
