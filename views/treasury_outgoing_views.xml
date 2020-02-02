@@ -50,7 +50,7 @@
 
                         </group>
                         <group>
-                            <field name="security_type"
+                            <field name="security_type_id"
                                    attrs="{'readonly':[('state','not in',['new', 'draft'])], 'required':[('type','!=','check')]}"
                                    domain="[('type', '=', 'type')]"/>
                             <field name="amount" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"

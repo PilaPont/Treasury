@@ -9,14 +9,12 @@ class TreasuryIncoming(models.Model):
     _inherit = 'treasury.in_out_going'
     _description = "Treasury Incoming"
 
-
     received_date = fields.Date(string='Receive Date', required=True)
-
     consignee_id = fields.Many2one('res.partner', string='Consignee', required=True)
     issued_by = fields.Char(string='Issued by')
     scan = fields.Binary(string="Scan", attachment=True, requierd=True)
     active = fields.Boolean(string='active', compute='_compute_active', store=True)
-    transferred_to = fields.Many2one('res.partner', string='Transferred To')
+    transferred_to_id = fields.Many2one('res.partner', string='Transferred To')
     description = fields.Text(string='Description')
 
     due_state = fields.Selection([
@@ -89,6 +87,29 @@ class TreasuryIncoming(models.Model):
             raise NotImplementedError
 
     @api.multi
+    def set_confirm(self):
+        self.state = 'undeposited'
+        debit_line_vals = {
+            'name': self.name,
+            'debit': self.amount,
+            'credit': -self.amount,
+            'account_id': self.account_rcv.id,
+        }
+        credit_line_vals = {
+            'name': self.name,
+            'debit': -self.amount,
+            'credit': self.amount,
+            'account_id': self.consignee_id.property_account_receivable_id,
+        }
+
+        vals = {
+            'journal_id': self.bank_journal_euro.id,
+            'partner_id': self.consignee_id,
+            'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+        }
+        return self.env['account.move'].create(vals).id
+
+    @api.multi
     def set_in_bank(self):
         self.state = 'in bank'
 
@@ -107,3 +128,11 @@ class TreasuryIncoming(models.Model):
     @api.multi
     def set_canceled(self):
         self.state = 'canceled'
+
+# self.env['account.move.line'].create({
+#                         'name': _('Automatic Balancing Line'),
+#                         'move_id': self.account_opening_move_id.id,
+#                         'account_id': balancing_account.id,
+#                         'debit': credit_diff,
+#                         'credit': debit_diff,
+#                     })

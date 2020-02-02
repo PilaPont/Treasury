@@ -7,6 +7,8 @@
             <form>
                 <header>
                     <!--`bounce` button visible if state is `undeposited` and due_date <= today-->
+                    <button name="set_confirm" string="confirm" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','!=','draft')]}"/>
                     <button name="set_in_bank" string="send to bank" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','undeposited')]}"/>
                     <button name="set_in_bank" string="resend to bank" type="object" class="btn-primary"
@@ -37,12 +39,12 @@
                             <field name="due_state"/>
                         </group>
                         <group>
-                            <field name="security_type" required="1"/>
+                            <field name="security_type_id" required="1"/>
                             <field name="amount"/>
                             <field name="description"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="consignee_id"/>
-                            <field name="transferred_to"/>
+                            <field name="transferred_to_id"/>
                         </group>
                     </group>
                 </sheet>
