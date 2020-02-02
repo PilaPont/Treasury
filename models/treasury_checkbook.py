@@ -75,7 +75,7 @@ class TreasuryCheckbook(models.Model):
         check_book = super(TreasuryCheckbook, self).create(vals)
         for n in range(check_book.count):
             self.env['treasury.outgoing'].create({
-                'name': '{}/{}'.format(check_book.series_no, int(check_book.first_serial_no) + n),
+                'number': '{}/{}'.format(check_book.series_no, int(check_book.first_serial_no) + n),
                 'checkbook_id': check_book.id,
                 'type': 'check'
             })
