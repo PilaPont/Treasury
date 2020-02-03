@@ -15,11 +15,12 @@
              'report/check_report.xml',
              'data/ir_sequence_data.xml',
              'data/treasury_security_type_data.xml',
+             'data/account_journal_data.xml',
              'views/treasury_checkbook_views.xml',
              'views/treasury_outgoing_views.xml',
              'views/treasury_incoming_views.xml',
              'views/treasury_menus.xml',
-
+             'views/res_config_settings_views.xml',
              ],
     'demo': [],
 }
