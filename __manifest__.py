@@ -6,7 +6,7 @@
     """,
     'author': "Maryam Kia",
     'website': "",
-    'depends': ['account'
+    'depends': ['l10n_ir'
 
                 ],
     'data': ['security/treasury_groups.xml',
