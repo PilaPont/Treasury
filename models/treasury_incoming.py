@@ -36,7 +36,7 @@ class TreasuryIncoming(models.Model):
         ('canceled', 'Canceled')],
         required=True, readonly=True,
         track_visibility='onchange',
-        default='undeposited')
+        default='draft')
 
     @api.multi
     @api.depends('state')
@@ -89,25 +89,25 @@ class TreasuryIncoming(models.Model):
     @api.multi
     def set_confirm(self):
         self.state = 'undeposited'
-        debit_line_vals = {
-            'name': self.name,
-            'debit': self.amount,
-            'credit': -self.amount,
-            'account_id': self.account_rcv.id,
-        }
-        credit_line_vals = {
-            'name': self.name,
-            'debit': -self.amount,
-            'credit': self.amount,
-            'account_id': self.consignee_id.property_account_receivable_id,
-        }
-
-        vals = {
-            'journal_id': self.bank_journal_euro.id,
-            'partner_id': self.consignee_id,
-            'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
-        }
-        return self.env['account.move'].create(vals).id
+        # debit_line_vals = {
+        #     'name': self.name,
+        #     'debit': self.amount,
+        #     'credit': -self.amount,
+        #     'account_id': self.account_rcv.id,
+        # }
+        # credit_line_vals = {
+        #     'name': self.name,
+        #     'debit': -self.amount,
+        #     'credit': self.amount,
+        #     'account_id': self.consignee_id.property_account_receivable_id,
+        # }
+        #
+        # vals = {
+        #     'journal_id': self.bank_journal_euro.id,
+        #     'partner_id': self.consignee_id,
+        #     'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+        # }
+        # return self.env['account.move'].create(vals).id
 
     @api.multi
     def set_in_bank(self):
