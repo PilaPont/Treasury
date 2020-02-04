@@ -24,8 +24,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_print" string="print" type="object" class="btn-primary" attrs="{'invisible':[('type','!=','check')]}"/>
-                    <button name="action_issue" string="issue" type="object" class="btn-primary" attrs="{'invisible':[('type','=','check')]}"/>
+                    <button name="action_print" string="print" type="object" class="btn-primary" attrs="{'invisible':['|', ('type','!=','check'), ('state','not in',['new','draft'])]}"/>
+                    <button name="action_issue" string="issue" type="object" class="btn-primary" attrs="{'invisible':['|', ('type','=','check'), ('state','not in',['new','draft'])]}"/>
                     <button name="action_deliver" string="deliver" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','printed')]}"/>
                     <button name="action_cancel" string="cancel" type="object" class="btn-primary"
