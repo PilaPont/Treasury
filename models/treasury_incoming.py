@@ -89,25 +89,24 @@ class TreasuryIncoming(models.Model):
     @api.multi
     def set_confirm(self):
         self.state = 'undeposited'
-        # debit_line_vals = {
-        #     'name': self.name,
-        #     'debit': self.amount,
-        #     'credit': -self.amount,
-        #     'account_id': self.account_rcv.id,
-        # }
-        # credit_line_vals = {
-        #     'name': self.name,
-        #     'debit': -self.amount,
-        #     'credit': self.amount,
-        #     'account_id': self.consignee_id.property_account_receivable_id,
-        # }
-        #
-        # vals = {
-        #     'journal_id': self.bank_journal_euro.id,
-        #     'partner_id': self.consignee_id,
-        #     'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
-        # }
-        # return self.env['account.move'].create(vals).id
+        if not self.guaranty:
+            debit_line_vals = {
+                'name': self.name,
+                'debit': self.amount,
+                'account_id': self.company_id.incoming_securities_account_id.id,
+            }
+            credit_line_vals = {
+                'name': self.name,
+                'credit': self.amount,
+                'account_id': self.consignee_id.property_account_receivable_id.id,
+            }
+
+            vals = {
+                'journal_id': self.company_id.treasury_journal_id.id,
+                'partner_id': self.consignee_id.id,
+                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+            }
+            return self.env['account.move'].create(vals).id
 
     @api.multi
     def set_in_bank(self):
@@ -128,11 +127,3 @@ class TreasuryIncoming(models.Model):
     @api.multi
     def set_canceled(self):
         self.state = 'canceled'
-
-# self.env['account.move.line'].create({
-#                         'name': _('Automatic Balancing Line'),
-#                         'move_id': self.account_opening_move_id.id,
-#                         'account_id': balancing_account.id,
-#                         'debit': credit_diff,
-#                         'credit': debit_diff,
-#                     })
