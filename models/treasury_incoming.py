@@ -86,7 +86,7 @@ class TreasuryIncoming(models.Model):
             raise NotImplementedError
 
     @api.multi
-    def set_confirm(self):
+    def action_confirm(self):
         self.state = 'undeposited'
         if not self.guaranty:
             debit_line_vals = {
@@ -108,7 +108,7 @@ class TreasuryIncoming(models.Model):
             return self.env['account.move'].create(vals).id
 
     @api.multi
-    def set_in_bank(self):
+    def action_in_bank(self):
         self.state = 'in bank'
         if not self.guaranty:
             debit_line_vals = {
@@ -130,7 +130,7 @@ class TreasuryIncoming(models.Model):
             return self.env['account.move'].create(vals).id
 
     @api.multi
-    def set_bounced(self):
+    def action_bounce(self):
         self.state = 'bounced'
         if not self.guaranty:
             debit_line_vals = {
@@ -152,7 +152,7 @@ class TreasuryIncoming(models.Model):
             return self.env['account.move'].create(vals).id
 
     @api.multi
-    def set_sued(self):
+    def action_sue(self):
         self.state = 'sued'
         if not self.guaranty:
             debit_line_vals = {
@@ -174,7 +174,7 @@ class TreasuryIncoming(models.Model):
             return self.env['account.move'].create(vals).id
 
     @api.multi
-    def set_returned(self):
+    def action_return(self):
         self.state = 'returned'
         if not self.guaranty:
             debit_line_vals = {

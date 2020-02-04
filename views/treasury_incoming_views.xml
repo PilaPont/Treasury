@@ -7,17 +7,17 @@
             <form>
                 <header>
                     <!--`bounce` button visible if state is `undeposited` and due_date <= today-->
-                    <button name="set_confirm" string="confirm" type="object" class="btn-primary"
+                    <button name="action_confirm" string="confirm" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','draft')]}"/>
-                    <button name="set_in_bank" string="send to bank" type="object" class="btn-primary"
+                    <button name="action_in_bank" string="send to bank" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','undeposited')]}"/>
-                    <button name="set_in_bank" string="resend to bank" type="object" class="btn-primary"
+                    <button name="action_in_bank" string="resend to bank" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','not in',['bounced', 'sued'])]}"/>
-                    <button name="set_bounced" string="bounce" type="object" class="btn-primary"
+                    <button name="action_bounce" string="bounce" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','in bank')]}"/>
-                    <button name="set_sued" string="sue" type="object" class="btn-primary"
+                    <button name="action_sue" string="sue" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','bounced')]}"/>
-                    <button name="set_returned" string="return" type="object" class="btn-primary"
+                    <button name="action_return" string="return" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','=','returned')]}"/>
                     <field name="state" widget="statusbar"/>
                 </header>

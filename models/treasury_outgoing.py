@@ -69,22 +69,22 @@ class TreasuryOutgoing(models.Model):
             doc.type = doc.select_type
 
     @api.multi
-    def print_doc(self):
+    def action_print(self):
         self.state = 'issued'
         return self.env.ref('treasury.action_print_check').report_action(self, config=False)
 
     @api.multi
-    def issue_doc(self):
+    def action_issue(self):
         self.state = 'issued'
 
     @api.multi
-    def deliver_doc(self):
+    def action_deliver(self):
         self.state = 'delivered'
 
     @api.multi
-    def set_canceled(self):
+    def action_cancel(self):
         self.state = 'canceled'
 
     @api.multi
-    def set_returned(self):
-        self.state = 'printed'
+    def action_return(self):
+        self.state = 'issued'
