@@ -10,46 +10,45 @@
                      groups="account.group_account_manager">
                     <h2>Treasury</h2>
                     <div class="row mt16 o_settings_container">
-                        <div class="col-12 col-lg-6 o_setting_box"
-                             title="These taxes are set in any new product created.">
+                        <div class="col-12 col-lg-6 o_setting_box">
                             <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
                                 <div class="content-group">
                                     <div class="row mt16">
                                         <label string="treasury journal" for="treasury_journal_id"
-                                               class="col-lg-3 o_light_label"/>
-                                        <field name="treasury_journal_id"/>
+                                               class="col-lg-12 o_light_label"/>
+                                        <field name="treasury_journal_id" style="padding-right:16px;"/>
                                     </div>
                                     <div class="row mt16">
                                         <label string="outgoing securities account" for="outgoing_securities_account_id"
-                                               class="col-lg-3 o_light_label"/>
-                                        <field name="outgoing_securities_account_id"/>
+                                               class="col-lg-12 o_light_label"/>
+                                        <field name="outgoing_securities_account_id" style="padding-right:16px;"/>
                                     </div>
                                     <div class="row mt16">
                                         <label string="sued incoming securities account"
                                                for="sued_incoming_securities_account_id"
-                                               class="col-lg-3 o_light_label"/>
-                                        <field name="sued_incoming_securities_account_id"/>
+                                               class="col-lg-12 o_light_label"/>
+                                        <field name="sued_incoming_securities_account_id" style="padding-right:16px;"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12 col-lg-6 o_setting_box" id="rounding_method"
-                             title="A rounding per line is advised if your prices are tax-included. That way, the sum of line subtotals equals the total with taxes.">
+                        <div class="col-12 col-lg-6 o_setting_box" id="rounding_method">
                             <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
                                 <div class="content-group">
                                     <div class="row mt16">
                                         <label string="incoming securities account" for="incoming_securities_account_id"
-                                               class="col-lg-3 o_light_label"/>
-                                        <field name="incoming_securities_account_id"/>
+                                               class="col-lg-12 o_light_label"/>
+                                        <field name="incoming_securities_account_id" style="padding-right:16px;"/>
                                     </div>
                                     <div class="row mt16">
                                         <label string="incoming securities in bank account"
                                                for="incoming_securities_in_bank_account_id"
-                                               class="col-lg-3 o_light_label"/>
-                                        <field name="incoming_securities_in_bank_account_id"/>
+                                               class="col-lg-12 o_light_label"/>
+                                        <field name="incoming_securities_in_bank_account_id"
+                                               style="padding-right:16px;"/>
                                     </div>
                                 </div>
 
