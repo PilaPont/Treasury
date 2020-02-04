@@ -29,7 +29,7 @@ class TestRegisterCheckBook(TransactionCase):
         """
         self.assertEqual(len(self.checkbook.check_ids), 6)
         self.assertEqual(
-            sorted([check.name for check in self.checkbook.check_ids]),
+            sorted([check.number for check in self.checkbook.check_ids]),
             [('{}/{}'.format(self.checkbook.series_no, int(self.checkbook.first_serial_no) + n))
              for n in range(self.checkbook.count)])
         self.assertEqual(all(item == 'new' for item in [check.state for check in self.checkbook.check_ids]), True)
@@ -39,14 +39,14 @@ class TestRegisterCheckBook(TransactionCase):
         checkbook # remained should be correct when some checks state are changed
         """
         self.assertEqual(self.checkbook.remained, 6)
-        self.checkbook.check_ids[0].state, self.checkbook.check_ids[1].state = 'delivered', 'printed'
+        self.checkbook.check_ids[0].state, self.checkbook.check_ids[1].state = 'delivered', 'issued'
         self.assertEqual(self.checkbook.remained, 4)
 
     def test_checkbook_state(self):
         """
         checkbook state should change when all checks are issued and when all checks are cashed/canceled
         """
-        self.checkbook.check_ids.write({'state': 'printed'})
+        self.checkbook.check_ids.write({'state': 'issued'})
         self.assertEqual(self.checkbook.state, 'finished')
         self.checkbook.check_ids.write({'state': 'canceled'})
         self.assertEqual(self.checkbook.state, 'done')
@@ -95,9 +95,9 @@ class TestRegisterCheckBook(TransactionCase):
         self.checkbook_ct.check_ids[1].state = 'cashed'
         self.checkbook_ct.check_ids[2].state = 'bounced'
         self.checkbook_ct.check_ids[3].state = 'draft'
-        self.checkbook_ct.check_ids[4].state = 'printed'
-        self.assertEqual(len(self.checkbook_ct.check_ids.filtered(lambda x: x.state in ('new', 'draft', 'printed'))), 5)
+        self.checkbook_ct.check_ids[4].state = 'issued'
+        self.assertEqual(len(self.checkbook_ct.check_ids.filtered(lambda x: x.state in ('new', 'draft', 'issued'))), 5)
         self.checkbook_ct.cancel_all()
-        self.assertEqual(len(self.checkbook_ct.check_ids.filtered(lambda x: x.state in ('new', 'draft', 'printed'))), 0)
-        self.assertEqual(len(self.checkbook_ct.check_ids.filtered(lambda x: x.state == 'canceled')), 5)
+        self.assertEqual(len(self.checkbook_ct.check_ids.filtered(lambda x: x.state in ('new', 'draft'))), 0)
+        self.assertEqual(len(self.checkbook_ct.check_ids.filtered(lambda x: x.state == 'canceled')), 4)
         self.assertEqual(self.checkbook_ct.active, False)
