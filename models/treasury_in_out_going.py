@@ -6,7 +6,7 @@ from odoo import api, fields, models, _
 class TreasuryInOut(models.AbstractModel):
     _name = "treasury.in_out_going"
     _inherit = 'mail.thread'
-    _description = "Treasury Outgoing"
+    _description = "Treasury In&Outgoing"
 
     name = fields.Char(string='Internal Number ', copy=False, readonly=True, index=True)
     number = fields.Char(string='Number', required=True)
