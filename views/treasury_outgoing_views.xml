@@ -27,6 +27,8 @@
                     <button name="print_doc" string="print" type="object" class="btn-primary"/>
                     <button name="deliver_doc" string="deliver" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','printed')]}"/>
+                    <button name="set_canceled" string="cancel" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','=',['delivered', 'cleaned'])]}"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>

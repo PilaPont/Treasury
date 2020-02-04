@@ -76,3 +76,7 @@ class TreasuryOutgoing(models.Model):
     @api.multi
     def deliver_doc(self):
         self.state = 'delivered'
+
+    @api.multi
+    def set_canceled(self):
+        self.state = 'canceled'

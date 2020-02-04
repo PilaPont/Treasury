@@ -32,8 +32,7 @@ class TreasuryIncoming(models.Model):
         ('transferred', 'Transferred'),
         ('bounced', 'Bounced'),
         ('sued', 'Sued'),
-        ('returned', 'Returned'),
-        ('canceled', 'Canceled')],
+        ('returned', 'Returned'), ],
         required=True, readonly=True,
         track_visibility='onchange',
         default='draft')
@@ -196,6 +195,3 @@ class TreasuryIncoming(models.Model):
             }
             return self.env['account.move'].create(vals).id
 
-    @api.multi
-    def set_canceled(self):
-        self.state = 'canceled'

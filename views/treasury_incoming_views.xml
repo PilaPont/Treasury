@@ -19,8 +19,6 @@
                             attrs="{'invisible':[('state','!=','bounced')]}"/>
                     <button name="set_returned" string="return" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','=','returned')]}"/>
-                    <button name="set_canceled" string="cancel" type="object" class="btn-primary"
-                            attrs="{'invisible':[('state','not in',['undeposited', 'bounced', 'sued'])]}"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
