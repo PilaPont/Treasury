@@ -55,6 +55,8 @@
                                    domain="[('type', '=', 'type')]"/>
                             <field name="amount" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
                                    required="1"/>
+                            <field name="currency_id" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
+                                   required="1"/>
                             <field name="beneficiary" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
                                    required="1"/>
                             <field name="reason" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
