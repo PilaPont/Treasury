@@ -32,9 +32,9 @@ class TreasuryOutgoing(models.Model):
     state = fields.Selection([
         ('new', 'New'),
         ('draft', 'Draft'),
-        ('printed', 'Printed'),
+        ('issued', 'Issued'),
         ('delivered', 'Delivered'),
-        ('cleaned', 'Cleaned'),
+        ('cashed', 'Cashed'),
         ('bounced', 'Bounced'),
         ('canceled', 'Canceled')],
         default='new', readonly=True,
@@ -70,8 +70,12 @@ class TreasuryOutgoing(models.Model):
 
     @api.multi
     def print_doc(self):
-        self.state = 'printed'
+        self.state = 'issued'
         return self.env.ref('treasury.action_print_check').report_action(self, config=False)
+
+    @api.multi
+    def issue_doc(self):
+        self.state = 'issued'
 
     @api.multi
     def deliver_doc(self):
@@ -80,3 +84,7 @@ class TreasuryOutgoing(models.Model):
     @api.multi
     def set_canceled(self):
         self.state = 'canceled'
+
+    @api.multi
+    def set_returned(self):
+        self.state = 'printed'

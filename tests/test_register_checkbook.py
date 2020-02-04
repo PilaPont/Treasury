@@ -44,13 +44,13 @@ class TestRegisterCheckBook(TransactionCase):
 
     def test_checkbook_state(self):
         """
-        checkbook state should change when all checks are issued and when all checks are cleaned/canceled
+        checkbook state should change when all checks are issued and when all checks are cashed/canceled
         """
         self.checkbook.check_ids.write({'state': 'printed'})
         self.assertEqual(self.checkbook.state, 'finished')
         self.checkbook.check_ids.write({'state': 'canceled'})
         self.assertEqual(self.checkbook.state, 'done')
-        self.checkbook.check_ids.write({'state': 'cleaned'})
+        self.checkbook.check_ids.write({'state': 'cashed'})
         self.assertEqual(self.checkbook.state, 'done')
 
     def test_checkbook_count(self):
@@ -92,7 +92,7 @@ class TestRegisterCheckBook(TransactionCase):
 
     def test_cancel_all(self):
         self.checkbook_ct.check_ids[0].state = 'delivered'
-        self.checkbook_ct.check_ids[1].state = 'cleaned'
+        self.checkbook_ct.check_ids[1].state = 'cashed'
         self.checkbook_ct.check_ids[2].state = 'bounced'
         self.checkbook_ct.check_ids[3].state = 'draft'
         self.checkbook_ct.check_ids[4].state = 'printed'

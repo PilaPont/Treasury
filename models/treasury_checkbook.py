@@ -37,7 +37,7 @@ class TreasuryCheckbook(models.Model):
     @api.depends('check_ids.state')
     def _compute_remained_state(self):
         for check_book in self:
-            if all(check.state in ('cleaned', 'canceled') for check in check_book.check_ids):
+            if all(check.state in ('cashed', 'canceled') for check in check_book.check_ids):
                 check_book.state = 'done'
                 check_book.remained = 0
             else:

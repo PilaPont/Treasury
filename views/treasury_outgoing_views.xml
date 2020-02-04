@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree decoration-success="state=='new' or state=='draft'" decoration-info="state=='printed'"
                   decoration-bf="state=='delivered'"
-                  decoration-muted="state=='canceled' or state=='cleaned'">
+                  decoration-muted="state=='canceled' or state=='cashed'">
                 <field name="name"/>
                 <field name="due_date"/>
                 <field name="amount"/>
@@ -24,11 +24,14 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="print_doc" string="print" type="object" class="btn-primary"/>
+                    <button name="print_doc" string="print" type="object" class="btn-primary" attrs="{'invisible':[('type','!=','check')]}"/>
+                    <button name="issue_doc" string="issue" type="object" class="btn-primary" attrs="{'invisible':[('type','=','check')]}"/>
                     <button name="deliver_doc" string="deliver" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','printed')]}"/>
                     <button name="set_canceled" string="cancel" type="object" class="btn-primary"
-                            attrs="{'invisible':[('state','=',['delivered', 'cleaned'])]}"/>
+                            attrs="{'invisible':[('state','=',['delivered', 'cashed'])]}"/>
+                    <button name="set_returned" string="return" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','!=',['delivered', 'bounced'])]}"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
