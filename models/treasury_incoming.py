@@ -103,7 +103,8 @@ class TreasuryIncoming(models.Model):
             vals = {
                 'journal_id': self.company_id.treasury_journal_id.id,
                 'partner_id': self.consignee_id.id,
-                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                'ref': 'confirm security'
             }
             return self.env['account.move'].create(vals).id
 
@@ -125,7 +126,8 @@ class TreasuryIncoming(models.Model):
             vals = {
                 'journal_id': self.company_id.treasury_journal_id.id,
                 'partner_id': self.consignee_id.id,
-                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                'ref': 'send security to bank'
             }
             return self.env['account.move'].create(vals).id
 
@@ -147,7 +149,8 @@ class TreasuryIncoming(models.Model):
             vals = {
                 'journal_id': self.company_id.treasury_journal_id.id,
                 'partner_id': self.consignee_id.id,
-                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                'ref': 'bounce security'
             }
             return self.env['account.move'].create(vals).id
 
@@ -169,7 +172,8 @@ class TreasuryIncoming(models.Model):
             vals = {
                 'journal_id': self.company_id.treasury_journal_id.id,
                 'partner_id': self.consignee_id.id,
-                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                'ref': 'sue security'
             }
             return self.env['account.move'].create(vals).id
 
@@ -191,7 +195,8 @@ class TreasuryIncoming(models.Model):
             vals = {
                 'journal_id': self.company_id.treasury_journal_id.id,
                 'partner_id': self.consignee_id.id,
-                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                'ref': 'return security'
             }
             return self.env['account.move'].create(vals).id
 
