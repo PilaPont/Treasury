@@ -7,7 +7,7 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     treasury_journal_id = fields.Many2one('account.journal', string='Treasury Journal account',
-                                          default=lambda self: self.env.ref('treasury.account_treasury_journal'),
+                                          default=lambda self: self.env.ref('l10n_ir.account_treasury_journal'),
                                           related='company_id.treasury_journal_id',
                                           readonly=False,
                                           required=True)
