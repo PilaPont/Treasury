@@ -167,7 +167,8 @@ class TreasuryIncoming(models.Model):
         self.state = 'sued'
         if not self.guaranty:
             debit_line_vals = {
-                'name': self.name,
+                'name': 'Suing {} {} for {}'.format(self.security_type_id.name, self.number,
+                                                    self.env.context.get('payment_description') or self.reason),
                 'debit': self.amount,
                 'account_id': self.company_id.incoming_securities_account_id.id,
             }
@@ -181,7 +182,8 @@ class TreasuryIncoming(models.Model):
                 'journal_id': self.company_id.treasury_journal_id.id,
                 'partner_id': self.consignee_id.id,
                 'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
-                'ref': 'sue security'
+                'ref': 'Suing {} {} for {}'.format(self.security_type_id.name, self.number,
+                                                   self.env.context.get('payment_description') or self.reason),
             }
             return self.env['account.move'].create(vals).id
 
@@ -190,7 +192,8 @@ class TreasuryIncoming(models.Model):
         self.state = 'returned'
         if not self.guaranty:
             debit_line_vals = {
-                'name': self.name,
+                'name': 'Returning {} {} for {}'.format(self.security_type_id.name, self.number,
+                                                        self.env.context.get('payment_description') or self.reason),
                 'debit': self.amount,
                 'account_id': self.consignee_id.property_account_receivable_id.id,
             }
@@ -204,6 +207,7 @@ class TreasuryIncoming(models.Model):
                 'journal_id': self.company_id.treasury_journal_id.id,
                 'partner_id': self.consignee_id.id,
                 'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
-                'ref': 'return security'
+                'ref': 'Returning {} {} for {}'.format(self.security_type_id.name, self.number,
+                                                       self.env.context.get('payment_description') or self.reason),
             }
             return self.env['account.move'].create(vals).id
