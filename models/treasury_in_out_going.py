@@ -13,7 +13,7 @@ class TreasuryInOut(models.AbstractModel):
     due_date = fields.Date(string='Due Date')
     amount = fields.Monetary(currency_field='currency_id', string='Amount')
     currency_id = fields.Many2one('res.currency', string='currency',
-                                  default=lambda self: self.env.ref('base.IRR').id)
+                                  default=lambda self: self.env['res.company']._company_default_get().currency_id)
     guaranty = fields.Boolean(string='Guaranty')
     company_id = fields.Many2one('res.company', string='company',
                                  default=lambda self: self.env['res.company']._company_default_get())
