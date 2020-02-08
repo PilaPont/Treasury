@@ -44,6 +44,7 @@
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="consignee_id"/>
                             <field name="transferred_to_id"/>
+                            <field name="scan"/>
                         </group>
                     </group>
                 </sheet>
