@@ -11,7 +11,7 @@ class TreasuryCheckbook(models.Model):
     company_id = fields.Many2one('res.company', string='company',
                                  default=lambda self: self.env['res.company']._company_default_get())
     check_ids = fields.One2many('treasury.outgoing', string='Check', inverse_name='checkbook_id',
-                                required=True)
+                                required=True, domain=[('type', '=', 'check')])
     first_serial_no = fields.Integer(string='First Check Serial No.', required=True)
     series_no = fields.Integer(string='Series No.', required=True)
     remained = fields.Integer(string='# Remained', compute='_compute_remained_state', store=True)
