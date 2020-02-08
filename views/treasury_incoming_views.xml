@@ -10,9 +10,10 @@
                     <button name="action_confirm" string="confirm" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','draft')]}"/>
                     <button name="action_in_bank" string="send to bank" type="object" class="btn-primary"
-                            attrs="{'invisible':[('state','!=','undeposited')]}"/>
-                    <button name="action_in_bank" string="resend to bank" type="object" class="btn-primary"
-                            attrs="{'invisible':[('state','not in',['bounced', 'sued'])]}"/>
+                            attrs="{'invisible':[('state','not in',['undeposited','bounced','sued'])]}"/>
+                    <button name="action_in_bank" string="send to bank" type="object"
+                            attrs="{'invisible':['|', ('state','not in',['undeposited','bounced','sued']),'&amp;', ('guaranty','=',True),('expected_return_by','&lt;=','current_date')]}"
+                            confirm="Considering expected_return_by, Are you sure you want to send it to bank?"/>
                     <button name="action_bounce" string="bounce" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','in bank')]}"/>
                     <button name="action_sue" string="sue" type="object" class="btn-primary"
@@ -33,7 +34,8 @@
                             <field name="expected_return_by"
                                    attrs="{'invisible':[('guaranty','=',False)], 'required':[('guaranty','=',True)]}"/>
                             <field name="received_date"/>
-                            <field name="due_date" attrs="{'required':['|',('type','in',['bond','lc','bank_guaranty']),'&amp;', ('type','=','check'),('guaranty','=',False)]}"/>
+                            <field name="due_date"
+                                   attrs="{'required':['|',('type','in',['bond','lc','bank_guaranty']),'&amp;', ('type','=','check'),('guaranty','=',False)]}"/>
                             <field name="due_state"/>
                         </group>
                         <group>
