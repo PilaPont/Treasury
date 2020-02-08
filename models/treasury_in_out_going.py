@@ -19,6 +19,7 @@ class TreasuryInOut(models.AbstractModel):
                                  default=lambda self: self.env['res.company']._company_default_get())
     security_type_id = fields.Many2one('treasury.security_type', string='Security type')
     expected_return_by = fields.Date(string='Expected return by')
+    reason = fields.Char(string='Reason')
     type = fields.Selection([
         ('check', 'Check'),
         ('promissory_note', 'Promissory note'),

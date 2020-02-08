@@ -519,7 +519,7 @@ msgstr "سفته"
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__reason
 msgid "Reason"
-msgstr "علت"
+msgstr "بابت"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__received_date
