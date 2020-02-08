@@ -6,7 +6,7 @@ from odoo import models, fields
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    treasury_journal_id = fields.Many2one('account.journal', string='Treasury Journal account',
+    treasury_journal_id = fields.Many2one('account.journal', string='Treasury Journal',
                                           default=lambda self: self.env.ref('l10n_ir.account_treasury_journal'),
                                           related='company_id.treasury_journal_id',
                                           readonly=False,

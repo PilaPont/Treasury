@@ -5,7 +5,7 @@ from odoo import models, fields
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    treasury_journal_id = fields.Many2one('account.journal', string='Treasury Journal account',
+    treasury_journal_id = fields.Many2one('account.journal', string='Treasury Journal',
                                           default=lambda self: self.env.ref('l10n_ir.account_treasury_journal'),
                                           required=True)
     outgoing_securities_account_id = fields.Many2one('account.account', string='Outgoing Securities Account',
