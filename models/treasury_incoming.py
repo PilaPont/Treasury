@@ -11,7 +11,7 @@ class TreasuryIncoming(models.Model):
 
     received_date = fields.Date(string='Receive Date', required=True)
     consignee_id = fields.Many2one('res.partner', string='Consignee', required=True)
-    issued_by = fields.Char(string='Issued by')
+    issued_by = fields.Char(string='Issued by', required=True)
     scan = fields.Binary(string="Scan", attachment=True, requierd=True)
     active = fields.Boolean(string='active', compute='_compute_active', store=True)
     transferred_to_id = fields.Many2one('res.partner', string='Transferred To')
