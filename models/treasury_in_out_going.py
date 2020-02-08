@@ -12,7 +12,7 @@ class TreasuryInOut(models.AbstractModel):
     number = fields.Char(string='Number', required=True)
     due_date = fields.Date(string='Due Date')
     amount = fields.Monetary(currency_field='currency_id', string='Amount')
-    currency_id = fields.Many2one('res.currency', string='currency_id',
+    currency_id = fields.Many2one('res.currency', string='currency',
                                   default=lambda self: self.env.ref('base.IRR').id)
     guaranty = fields.Boolean(string='Guaranty')
     company_id = fields.Many2one('res.company', string='company',
