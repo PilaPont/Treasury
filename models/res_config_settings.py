@@ -12,23 +12,34 @@ class ResConfigSettings(models.TransientModel):
                                           readonly=False,
                                           required=True)
     outgoing_securities_account_id = fields.Many2one('account.account', string='Outgoing Securities Account',
-                                                     default=lambda self: self.env.ref('l10n_ir.ac_id_3030'),
+                                                     default=lambda self: self.env['account.account'].search(
+                                                         [('code', '=', '3030')]),
                                                      related='company_id.outgoing_securities_account_id',
                                                      readonly=False,
                                                      required=True)
     sued_incoming_securities_account_id = fields.Many2one('account.account', string='Sued Incoming Securities Account',
-                                                          default=lambda self: self.env.ref('l10n_ir.ac_id_1570'),
+                                                          default=lambda self: self.env['account.account'].search(
+                                                              [('code', '=', '1570')]),
                                                           related='company_id.sued_incoming_securities_account_id',
                                                           readonly=False,
                                                           required=True)
+    other_incomes_account = fields.Many2one('account.account', string='Other Incomes Account',
+                                            default=lambda self: self.env['account.account'].search(
+                                                [('code', '=', '6499')]),
+                                            related='company_id.other_incomes_account',
+                                            readonly=False,
+                                            required=True
+                                            )
     incoming_securities_account_id = fields.Many2one('account.account', string='Incoming Securities Account',
-                                                     default=lambda self: self.env.ref('l10n_ir.ac_id_1530'),
+                                                     default=lambda self: self.env['account.account'].search(
+                                                         [('code', '=', '1530')]),
                                                      related='company_id.incoming_securities_account_id',
                                                      readonly=False,
                                                      required=True)
     incoming_securities_in_bank_account_id = fields.Many2one('account.account',
                                                              string='Incoming Securities In Bank Account',
-                                                             default=lambda self: self.env.ref('l10n_ir.ac_id_1535'),
+                                                             default=lambda self: self.env['account.account'].search(
+                                                                 [('code', '=', '1535')]),
                                                              related='company_id.incoming_securities_in_bank_account_id',
                                                              readonly=False,
                                                              required=True)

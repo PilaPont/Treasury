@@ -16,6 +16,7 @@
                         <group>
                             <field name="incoming_securities_account_id"/>
                             <field name="incoming_securities_in_bank_account_id"/>
+                            <field name="other_incomes_account"/>
                         </group>
                     </group>
                 </page>
