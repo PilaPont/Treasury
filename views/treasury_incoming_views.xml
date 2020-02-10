@@ -10,12 +10,12 @@
                     <button name="action_confirm" string="confirm" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','draft')]}"/>
                     <button name="action_in_bank" string="send to bank" type="object" class="btn-primary"
-                            attrs="{'invisible':[('state','not in',['undeposited','bounced','sued'])]}"/>
+                            attrs="{'invisible':['|',('state','not in',['undeposited','bounced','sued']), ('guaranty','=',True)]}"/>
                     <button name="action_in_bank" string="send to bank" type="object"
-                            attrs="{'invisible':['|', ('state','not in',['undeposited','bounced','sued']),'&amp;', ('guaranty','=',True),('expected_return_by','&lt;=','current_date')]}"
+                            attrs="{'invisible':['|',('state','not in',['undeposited','bounced','sued']),'!','&amp;', ('guaranty','=',True),('expected_return_by','&gt;','current_date')]}"
                             confirm="Considering expected_return_by, Are you sure you want to send it to bank?"/>
                     <button name="action_bounce" string="bounce" type="object" class="btn-primary"
-                            attrs="{'invisible':['&amp;',('state','!=','undeposited'), ('due_date','&lt;=','current_date')]}"/>
+                            attrs="{'invisible':['|',('state','!=','undeposited'),'!', ('due_date','&lt;=','current_date')]}"/>
                     <button name="action_sue" string="sue" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','!=','bounced')]}"/>
                     <button name="action_return" string="return" type="object" class="btn-primary"

@@ -529,7 +529,7 @@ msgstr "تاریخ دریافت"
 #. module: treasury
 #: selection:treasury.incoming,state:0
 msgid "Returned"
-msgstr "برگشت‌خورده"
+msgstr "عودت‌شده"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__scan
