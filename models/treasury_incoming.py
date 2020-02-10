@@ -16,6 +16,8 @@ class TreasuryIncoming(models.Model):
     active = fields.Boolean(string='active', compute='_compute_active', store=True)
     transferred_to_id = fields.Many2one('res.partner', string='Transferred To')
     description = fields.Text(string='Description')
+    account_move_line_ids = fields.One2many('account.move.line', string='Journal items', readonly=True)
+    account_move_ids = fields.One2many('account.move', string='Journal entries', compute='_compute_account_moves')
 
     due_state = fields.Selection([
         ('undue', 'Undue'),
@@ -46,22 +48,28 @@ class TreasuryIncoming(models.Model):
     @api.multi
     @api.depends('due_date')
     def _compute_due(self):
-        if not self.due_date:
-            self.due_state = 'undue'
-        else:
-            current_date = datetime.date.today()
-            if self.due_date < current_date:
-                self.due_state = 'overdue'
-            elif self.due_date == current_date:
-                self.due_state = 'due'
+        for doc in self:
+            if not doc.due_date:
+                doc.due_state = 'undue'
             else:
-                self.due_state = 'undue'
+                current_date = datetime.date.today()
+                if doc.due_date < current_date:
+                    doc.due_state = 'overdue'
+                elif doc.due_date == current_date:
+                    doc.due_state = 'due'
+                else:
+                    doc.due_state = 'undue'
+
+    @api.multi
+    @api.depends
+    def _compute_account_moves(self):
+        for doc in self:
+            doc.account_move_ids = doc.mapped('account_move_line_ids.move_id')
 
     @api.onchange('consignee_id')
     def _onchange_consignee_id(self):
         self.issued_by = self.consignee_id.display_name
 
-    @api.multi
     def _search_due(self, operator, value):
         current_date = datetime.date.today()
         if operator == '=':
