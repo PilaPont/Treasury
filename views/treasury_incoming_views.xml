@@ -42,7 +42,6 @@
                             <field name="security_type_id" required="1"/>
                             <field name="amount"/>
                             <field name="currency_id"/>
-                            <field name="description"/>
                             <field name="reason" required="1"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="consignee_id"/>
@@ -51,6 +50,17 @@
                             <field name="scan" required="1"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Journal Items">
+                            <field name="account_move_line_ids"/>
+                        </page>
+                        <page string="Journal Entries">
+                            <field name="account_move_ids"/>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
