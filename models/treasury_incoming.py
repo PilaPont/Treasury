@@ -29,7 +29,7 @@ class TreasuryIncoming(models.Model):
     state = fields.Selection(selection=[
         ('draft', 'Draft'),
         ('undeposited', 'Undeposited'),
-        ('in bank', 'In bank'),
+        ('in_bank', 'In bank'),
         ('collected', 'Collected'),
         ('transferred', 'Transferred'),
         ('bounced', 'Bounced'),
@@ -121,7 +121,7 @@ class TreasuryIncoming(models.Model):
 
     @api.multi
     def action_in_bank(self):
-        self.state = 'in bank'
+        self.state = 'in_bank'
         credit_account = self.company_id.incoming_securities_account_id.id if self.guaranty \
             else self.company_id.other_incomes_account.id
         name_and_ref = 'Delivering {} {} for {}'.format(self.security_type_id.name, self.number,
