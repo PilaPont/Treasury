@@ -8,7 +8,7 @@ class TestRegisterCheckBook(TransactionCase):
     def setUp(self):
         super(TestRegisterCheckBook, self).setUp()
         self.checkbook = self.env['treasury.checkbook'].create({
-            'journal_id': 8,
+            'journal_id': self.env['account.journal'].search([('type', '=', 'bank')], limit=1).id,
             'series_no': 1234,
             'first_serial_no': 123456,
             'select_count': 'custom_count',
@@ -16,7 +16,7 @@ class TestRegisterCheckBook(TransactionCase):
         })
 
         self.checkbook_ct = self.env['treasury.checkbook'].create({
-            'journal_id': 8,
+            'journal_id': self.env['account.journal'].search([('type', '=', 'bank')], limit=1).id,
             'series_no': 9874,
             'first_serial_no': 65421,
             'select_count': 'custom_count',
@@ -60,7 +60,8 @@ class TestRegisterCheckBook(TransactionCase):
         self.assertEqual(self.checkbook.count, 6)
 
         ch_t = Form(self.env['treasury.checkbook'])
-        ch_t.journal_id = self.env['account.journal'].browse(8)
+        ch_t.journal_id = self.env['account.journal'].browse(
+            self.env['account.journal'].search([('type', '=', 'bank')], limit=1).id)
         ch_t.series_no = 4567
         ch_t.first_serial_no = 456789
         ch_t.select_count = '10'
