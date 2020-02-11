@@ -7,17 +7,21 @@ from odoo.tools import jadatetime as jd
 
 class TreasuryOutgoing(models.Model):
     _name = "treasury.outgoing"
-    _inherit = 'treasury.in_out_going'
+    _inherit = 'treasury.entry'
     _description = "Treasury Outgoing"
 
     date_issue = fields.Datetime(string='Issue Date')
     due_date_text = fields.Char(string='Due Date Text', compute='_compute_due_date_text')
     amount_text = fields.Char(string='Amount Text', compute='_compute_amount_text')
-    beneficiary = fields.Many2one('res.partner', string='Beneficiary')
+    beneficiary = fields.Many2one(comodel_name='res.partner', string='Beneficiary')
     description = fields.Char(string='Description', compute='_compute_description')
-    checkbook_id = fields.Many2one('treasury.checkbook', string='Checkbook', readonly=True)
+    checkbook_id = fields.Many2one(comodel_name='treasury.checkbook', string='Checkbook', readonly=True)
     date_delivery = fields.Date(string='Delivery Date')
-    select_type = fields.Selection([
+    account_move_line_ids = fields.One2many(comodel_name='account.move.line', inverse_name='treasury_outgoing_id',
+                                            string='Journal items', readonly=True)
+    account_move_ids = fields.One2many(comodel_name='account.move', string='Journal entries',
+                                       compute='_compute_account_moves')
+    select_type = fields.Selection(selection=[
         ('promissory_note', 'Promissory note'),
         ('bond', 'Bond'),
         ('lc', 'LC'),
@@ -26,8 +30,7 @@ class TreasuryOutgoing(models.Model):
         inverse='_set_select_type',
         store=False,
         required=True)
-
-    state = fields.Selection([
+    state = fields.Selection(selection=[
         ('new', 'New'),
         ('draft', 'Draft'),
         ('issued', 'Issued'),
@@ -60,6 +63,12 @@ class TreasuryOutgoing(models.Model):
     def _compute_select_type(self):
         for doc in self:
             doc.select_type = doc.type if doc.type != 'check' else False
+
+    @api.multi
+    @api.depends('account_move_line_ids')
+    def _compute_account_moves(self):
+        for doc in self:
+            doc.account_move_ids = doc.mapped('account_move_line_ids.move_id')
 
     @api.onchange('select_type')
     def _set_select_type(self):

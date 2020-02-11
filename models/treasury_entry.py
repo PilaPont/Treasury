@@ -3,10 +3,10 @@
 from odoo import api, fields, models, _
 
 
-class TreasuryInOut(models.AbstractModel):
-    _name = "treasury.in_out_going"
+class TreasuryEntry(models.AbstractModel):
+    _name = "treasury.entry"
     _inherit = 'mail.thread'
-    _description = "Treasury In&Outgoing"
+    _description = "Treasury Entry"
 
     name = fields.Char(string='Internal Number ', copy=False, readonly=True, index=True)
     number = fields.Char(string='Number', required=True)
@@ -15,12 +15,12 @@ class TreasuryInOut(models.AbstractModel):
     currency_id = fields.Many2one('res.currency', string='currency',
                                   default=lambda self: self.env['res.company']._company_default_get().currency_id)
     guaranty = fields.Boolean(string='Guaranty')
-    company_id = fields.Many2one('res.company', string='company',
+    company_id = fields.Many2one(comodel_name='res.company', string='company',
                                  default=lambda self: self.env['res.company']._company_default_get())
-    security_type_id = fields.Many2one('treasury.security_type', string='Security type')
+    security_type_id = fields.Many2one(comodel_name='treasury.security_type', string='Security type')
     expected_return_by = fields.Date(string='Expected return by')
     reason = fields.Char(string='Reason')
-    type = fields.Selection([
+    type = fields.Selection(selection=[
         ('check', 'Check'),
         ('promissory_note', 'Promissory note'),
         ('bond', 'Bond'),
