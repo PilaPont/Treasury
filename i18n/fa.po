@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-08 13:23+0000\n"
-"PO-Revision-Date: 2020-02-08 13:23+0000\n"
+"POT-Creation-Date: 2020-02-12 00:02+0000\n"
+"PO-Revision-Date: 2020-02-12 00:02+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,14 +36,14 @@ msgid "50"
 msgstr "۵۰"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_needaction
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_needaction
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_needaction
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_needaction
 msgid "Action Needed"
 msgstr "نیازمند اقدام"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__amount
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__amount
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__amount
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__amount
 msgid "Amount"
@@ -60,7 +60,7 @@ msgid "Are you sure you want to do this?"
 msgstr "آیا از انجام این کار مطمئنید؟"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_attachment_count
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_attachment_count
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_attachment_count
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_attachment_count
 msgid "Attachment Count"
@@ -77,7 +77,7 @@ msgid "Bank Account Journal"
 msgstr "تفکیک سند حساب جاری"
 
 #. module: treasury
-#: selection:treasury.in_out_going,type:0
+#: selection:treasury.entry,type:0
 #: selection:treasury.incoming,type:0
 #: selection:treasury.outgoing,select_type:0
 #: selection:treasury.outgoing,type:0
@@ -91,7 +91,7 @@ msgid "Beneficiary"
 msgstr "ذینفع"
 
 #. module: treasury
-#: selection:treasury.in_out_going,type:0
+#: selection:treasury.entry,type:0
 #: selection:treasury.incoming,type:0
 #: selection:treasury.outgoing,select_type:0
 #: selection:treasury.outgoing,type:0
@@ -118,7 +118,7 @@ msgstr "نقدشده"
 #. module: treasury
 #: model:ir.actions.report,name:treasury.action_print_check
 #: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__check_ids
-#: selection:treasury.in_out_going,type:0
+#: selection:treasury.entry,type:0
 #: selection:treasury.incoming,type:0
 #: selection:treasury.outgoing,type:0
 msgid "Check"
@@ -143,6 +143,11 @@ msgstr "شرکت‌ها"
 #: model:ir.model,name:treasury.model_res_config_settings
 msgid "Config Settings"
 msgstr "تنظیمات پیکربندی"
+
+#. module: treasury
+#: model_terms:ir.ui.view,arch_db:treasury.treasury_incoming_view_form
+msgid "Considering expected_return_by, Are you sure you want to send it to bank?"
+msgstr "با در نظر گرفتن تاریخ برگشت مورد انتظار، آیا از ارسال چک به بانک مطمئن هستید؟"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__consignee_id
@@ -203,11 +208,12 @@ msgstr "تاریخ تحویل"
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__description
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__description
+#: model_terms:ir.ui.view,arch_db:treasury.treasury_incoming_view_form
 msgid "Description"
-msgstr "توضیح"
+msgstr "توصیف"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__display_name
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__display_name
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__display_name
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__display_name
 #: model:ir.model.fields,field_description:treasury.field_treasury_security_type__display_name
@@ -231,7 +237,7 @@ msgid "Due"
 msgstr "سررسید شده"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__due_date
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__due_date
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__due_date
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__due_date
 msgid "Due Date"
@@ -248,7 +254,7 @@ msgid "Due State"
 msgstr "وضعیت سررسید"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__expected_return_by
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__expected_return_by
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__expected_return_by
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__expected_return_by
 msgid "Expected return by"
@@ -265,28 +271,28 @@ msgid "First Check Serial No."
 msgstr "شماره سریال اولین چک"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_follower_ids
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_follower_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_follower_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_follower_ids
 msgid "Followers"
 msgstr "دنبال‌کنندگان"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_channel_ids
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_channel_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_channel_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_channel_ids
 msgid "Followers (Channels)"
-msgstr "دنبال‌کنندگان (کانال‌ها)"
+msgstr "پیروان (کانال ها)"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_partner_ids
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_partner_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_partner_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "دنبال‌کنندگان (مخاطبین)"
+msgstr "پیروان (شرکاء)"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__guaranty
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__guaranty
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__guaranty
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__guaranty
 msgid "Guaranty"
@@ -299,7 +305,7 @@ msgstr "جهت مدیریت چک‌ها و اوراق بهادار به‌کار
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__id
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__id
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__id
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__id
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__id
 #: model:ir.model.fields,field_description:treasury.field_treasury_security_type__id
@@ -307,25 +313,25 @@ msgid "ID"
 msgstr "شناسه"
 
 #. module: treasury
-#: model:ir.model.fields,help:treasury.field_treasury_in_out_going__message_unread
+#: model:ir.model.fields,help:treasury.field_treasury_entry__message_unread
 #: model:ir.model.fields,help:treasury.field_treasury_incoming__message_unread
 #: model:ir.model.fields,help:treasury.field_treasury_outgoing__message_unread
 msgid "If checked new messages require your attention."
 msgstr "اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
 
 #. module: treasury
-#: model:ir.model.fields,help:treasury.field_treasury_in_out_going__message_needaction
+#: model:ir.model.fields,help:treasury.field_treasury_entry__message_needaction
 #: model:ir.model.fields,help:treasury.field_treasury_incoming__message_needaction
 #: model:ir.model.fields,help:treasury.field_treasury_outgoing__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
 
 #. module: treasury
-#: model:ir.model.fields,help:treasury.field_treasury_in_out_going__message_has_error
+#: model:ir.model.fields,help:treasury.field_treasury_entry__message_has_error
 #: model:ir.model.fields,help:treasury.field_treasury_incoming__message_has_error
 #: model:ir.model.fields,help:treasury.field_treasury_outgoing__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr "اگر این گزینه علامت خورده باشد، تحویل برخی از پیام‌ها با خطا مواجه شده است."
+msgstr "نشان می‌دهد برخی از پیام‌ها خطای تحویل داشته‌اند."
 
 #. module: treasury
 #: selection:treasury.incoming,state:0
@@ -345,7 +351,7 @@ msgid "Incoming Securities In Bank Account"
 msgstr ""
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__name
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__name
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__name
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__name
 msgid "Internal Number "
@@ -357,11 +363,11 @@ msgid "Invoicing"
 msgstr "صدور فاکتور"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_is_follower
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_is_follower
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_is_follower
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_is_follower
 msgid "Is Follower"
-msgstr "دنبال‌کننده است"
+msgstr "دنبال می کند"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__date_issue
@@ -379,7 +385,34 @@ msgid "Issued by"
 msgstr "صادرشده توسط"
 
 #. module: treasury
-#: selection:treasury.in_out_going,type:0
+#: model_terms:ir.ui.view,arch_db:treasury.treasury_incoming_view_form
+msgid "Journal Entries"
+msgstr "اسناد حسابداری"
+
+#. module: treasury
+#: model:ir.model,name:treasury.model_account_move_line
+msgid "Journal Item"
+msgstr "آرتیکل حسابداری"
+
+#. module: treasury
+#: model_terms:ir.ui.view,arch_db:treasury.treasury_incoming_view_form
+msgid "Journal Items"
+msgstr "آرتیکل‌های حسابداری"
+
+#. module: treasury
+#: model:ir.model.fields,field_description:treasury.field_treasury_incoming__account_move_ids
+#: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__account_move_ids
+msgid "Journal entries"
+msgstr ""
+
+#. module: treasury
+#: model:ir.model.fields,field_description:treasury.field_treasury_incoming__account_move_line_ids
+#: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__account_move_line_ids
+msgid "Journal items"
+msgstr ""
+
+#. module: treasury
+#: selection:treasury.entry,type:0
 #: selection:treasury.incoming,type:0
 #: selection:treasury.outgoing,select_type:0
 #: selection:treasury.outgoing,type:0
@@ -389,7 +422,7 @@ msgstr "اعتبار اسنادی"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_checkbook____last_update
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going____last_update
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry____last_update
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming____last_update
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing____last_update
 #: model:ir.model.fields,field_description:treasury.field_treasury_security_type____last_update
@@ -413,7 +446,7 @@ msgid "Last Updated on"
 msgstr "آخرین به روز رسانی در"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_main_attachment_id
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_main_attachment_id
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_main_attachment_id
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_main_attachment_id
 msgid "Main Attachment"
@@ -425,14 +458,14 @@ msgid "Manager"
 msgstr "مدیر"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_has_error
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_has_error
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_has_error
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_has_error
 msgid "Message Delivery error"
 msgstr "خطا در تحویل پیام"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_ids
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_ids
 msgid "Messages"
@@ -445,61 +478,62 @@ msgid "Name"
 msgstr "نام"
 
 #. module: treasury
-#: model:ir.model,name:treasury.model_treasury_security_type
-msgid "Security Type"
-msgstr "نوع اوراق بهادار"
-
-#. module: treasury
 #: selection:treasury.outgoing,state:0
 msgid "New"
 msgstr "جدید"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__number
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__number
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__number
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__number
 msgid "Number"
 msgstr "شماره"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_needaction_counter
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_needaction_counter
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_needaction_counter
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_needaction_counter
 msgid "Number of Actions"
 msgstr "تعداد اقدامات"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_has_error_counter
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_has_error_counter
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_has_error_counter
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_has_error_counter
 msgid "Number of error"
-msgstr "تعداد خطا"
+msgstr "تعداد خطاها"
 
 #. module: treasury
-#: model:ir.model.fields,help:treasury.field_treasury_in_out_going__message_needaction_counter
+#: model:ir.model.fields,help:treasury.field_treasury_entry__message_needaction_counter
 #: model:ir.model.fields,help:treasury.field_treasury_incoming__message_needaction_counter
 #: model:ir.model.fields,help:treasury.field_treasury_outgoing__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr "تعداد پیام‌هایی که نیاز به اقدام دارند."
+msgstr "تعداد پیام ها که نیاز به عمل"
 
 #. module: treasury
-#: model:ir.model.fields,help:treasury.field_treasury_in_out_going__message_has_error_counter
+#: model:ir.model.fields,help:treasury.field_treasury_entry__message_has_error_counter
 #: model:ir.model.fields,help:treasury.field_treasury_incoming__message_has_error_counter
 #: model:ir.model.fields,help:treasury.field_treasury_outgoing__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "تعداد پیام‌ها با خطای تحویل"
+msgstr "تعداد پیام‌هایی که خطا در تحویل دارند"
 
 #. module: treasury
-#: model:ir.model.fields,help:treasury.field_treasury_in_out_going__message_unread_counter
+#: model:ir.model.fields,help:treasury.field_treasury_entry__message_unread_counter
 #: model:ir.model.fields,help:treasury.field_treasury_incoming__message_unread_counter
 #: model:ir.model.fields,help:treasury.field_treasury_outgoing__message_unread_counter
 msgid "Number of unread messages"
-msgstr "تعداد پیام‌های خوانده‌نشده"
+msgstr "تعداد پیام‌های خوانده نشده"
 
 #. module: treasury
 #: selection:treasury.checkbook,state:0
 msgid "Open"
 msgstr "باز"
+
+#. module: treasury
+#: model:ir.model.fields,field_description:treasury.field_res_company__other_incomes_account
+#: model:ir.model.fields,field_description:treasury.field_res_config_settings__other_incomes_account
+msgid "Other Incomes Account"
+msgstr ""
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_res_company__outgoing_securities_account_id
@@ -508,7 +542,7 @@ msgid "Outgoing Securities Account"
 msgstr ""
 
 #. module: treasury
-#: selection:treasury.in_out_going,type:0
+#: selection:treasury.entry,type:0
 #: selection:treasury.incoming,type:0
 #: selection:treasury.outgoing,select_type:0
 #: selection:treasury.outgoing,type:0
@@ -517,9 +551,11 @@ msgid "Promissory note"
 msgstr "سفته"
 
 #. module: treasury
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__reason
+#: model:ir.model.fields,field_description:treasury.field_treasury_incoming__reason
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__reason
 msgid "Reason"
-msgstr "بابت"
+msgstr "علت"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__received_date
@@ -537,7 +573,12 @@ msgid "Scan"
 msgstr "تصویر سند"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__security_type_id
+#: model:ir.model,name:treasury.model_treasury_security_type
+msgid "Security Type"
+msgstr "نوع اوراق بهادار"
+
+#. module: treasury
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__security_type_id
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__security_type_id
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__security_type_id
 msgid "Security type"
@@ -563,7 +604,7 @@ msgstr "شماره سری"
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__state
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__state
 msgid "State"
-msgstr "وضعیت"
+msgstr "استان"
 
 #. module: treasury
 #: selection:treasury.incoming,state:0
@@ -577,7 +618,7 @@ msgid "Sued Incoming Securities Account"
 msgstr ""
 
 #. module: treasury
-#: sql_constraint:treasury.in_out_going:0
+#: sql_constraint:treasury.entry:0
 #: sql_constraint:treasury.incoming:0
 #: sql_constraint:treasury.outgoing:0
 msgid "This name is duplicate!"
@@ -614,13 +655,14 @@ msgid "Treasury Configuration"
 msgstr "پیکربندی"
 
 #. module: treasury
-#: model:ir.model,name:treasury.model_treasury_in_out_going
-msgid "Treasury In&Outgoing"
+#: model:ir.model,name:treasury.model_treasury_entry
+msgid "Treasury Entry"
 msgstr ""
 
 #. module: treasury
 #: model:ir.actions.act_window,name:treasury.treasury_incoming_action_view_tree
 #: model:ir.model,name:treasury.model_treasury_incoming
+#: model:ir.model.fields,field_description:treasury.field_account_move_line__treasury_incoming_id
 msgid "Treasury Incoming"
 msgstr "اسناد و اوراق دریافتی"
 
@@ -633,6 +675,7 @@ msgstr "تفکیک سند خزانه‌داری"
 #. module: treasury
 #: model:ir.actions.act_window,name:treasury.treasury_outgoing_action_view_tree
 #: model:ir.model,name:treasury.model_treasury_outgoing
+#: model:ir.model.fields,field_description:treasury.field_account_move_line__treasury_outgoing_id
 #: model:ir.ui.menu,name:treasury.treasury_outgoing_menu
 msgid "Treasury Outgoing"
 msgstr "اسناد پرداختی"
@@ -653,7 +696,7 @@ msgid "Treasury incoming"
 msgstr "اسناد دریافتی"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__type
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__type
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__type
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__type
 #: model:ir.model.fields,field_description:treasury.field_treasury_security_type__type
@@ -671,14 +714,14 @@ msgid "Undue"
 msgstr "سررسید نشده"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_unread
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_unread
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_unread
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_unread
 msgid "Unread Messages"
-msgstr "پیام‌های خوانده‌نشده"
+msgstr "پیام های ناخوانده"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__message_unread_counter
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_unread_counter
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_unread_counter
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_unread_counter
 msgid "Unread Messages Counter"
@@ -690,14 +733,14 @@ msgid "User"
 msgstr "کاربر"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__website_message_ids
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__website_message_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__website_message_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__website_message_ids
 msgid "Website Messages"
 msgstr "پیام‌های وب‌سایت"
 
 #. module: treasury
-#: model:ir.model.fields,help:treasury.field_treasury_in_out_going__website_message_ids
+#: model:ir.model.fields,help:treasury.field_treasury_entry__website_message_ids
 #: model:ir.model.fields,help:treasury.field_treasury_incoming__website_message_ids
 #: model:ir.model.fields,help:treasury.field_treasury_outgoing__website_message_ids
 msgid "Website communication history"
@@ -732,7 +775,7 @@ msgstr "چک"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_checkbook__company_id
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__company_id
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__company_id
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__company_id
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__company_id
 msgid "company"
@@ -744,7 +787,7 @@ msgid "confirm"
 msgstr "تایید"
 
 #. module: treasury
-#: model:ir.model.fields,field_description:treasury.field_treasury_in_out_going__currency_id
+#: model:ir.model.fields,field_description:treasury.field_treasury_entry__currency_id
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__currency_id
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__currency_id
 msgid "currency"
@@ -756,7 +799,7 @@ msgid "deliver"
 msgstr "تحویل"
 
 #. module: treasury
-#: code:addons/treasury/models/treasury_outgoing.py:58
+#: code:addons/treasury/models/treasury_outgoing.py:59
 #, python-format
 msgid "for"
 msgstr "بابت"
@@ -783,6 +826,11 @@ msgstr "شماره چک بعدی"
 
 #. module: treasury
 #: model_terms:ir.ui.view,arch_db:treasury.res_config_settings_view_form
+msgid "other incomes account"
+msgstr ""
+
+#. module: treasury
+#: model_terms:ir.ui.view,arch_db:treasury.res_config_settings_view_form
 msgid "outgoing securities account"
 msgstr ""
 
@@ -795,11 +843,6 @@ msgstr "سررسید گذشته"
 #: model_terms:ir.ui.view,arch_db:treasury.treasury_outgoing_view_form
 msgid "print"
 msgstr "چاپ"
-
-#. module: treasury
-#: model_terms:ir.ui.view,arch_db:treasury.treasury_incoming_view_form
-msgid "resend to bank"
-msgstr "ارسال مجدد به بانک"
 
 #. module: treasury
 #: model_terms:ir.ui.view,arch_db:treasury.treasury_incoming_view_form
