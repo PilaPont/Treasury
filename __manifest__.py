@@ -1,8 +1,9 @@
 {
-    'name': 'treasury',
+    'name': 'Treasury',
     'version': '1.0',
     'category': 'Localization',
     'description': """
+    To handle checks and bonds
     """,
     'author': "Maryam Kia",
     'website': "",
