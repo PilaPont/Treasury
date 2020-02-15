@@ -13,7 +13,7 @@ class TreasuryOutgoing(models.Model):
     date_issue = fields.Datetime(string='Issue Date')
     due_date_text = fields.Char(string='Due Date Text', compute='_compute_due_date_text')
     amount_text = fields.Char(string='Amount Text', compute='_compute_amount_text')
-    beneficiary = fields.Many2one(comodel_name='res.partner', string='Beneficiary')
+    beneficiary_id = fields.Many2one(comodel_name='res.partner', string='Beneficiary')
     description = fields.Char(string='Description', compute='_compute_description')
     checkbook_id = fields.Many2one(comodel_name='treasury.checkbook', string='Checkbook', readonly=True)
     date_delivery = fields.Date(string='Delivery Date')
