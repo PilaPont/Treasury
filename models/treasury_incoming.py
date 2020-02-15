@@ -95,130 +95,135 @@ class TreasuryIncoming(models.Model):
 
     @api.multi
     def action_confirm(self):
-        self.state = 'undeposited'
-        if not self.guaranty:
-            name_and_ref = 'Receiving {} {} for {}'.format(self.security_type_id.name, self.number,
-                                                        self.env.context.get('payment_description') or self.reason)
-            debit_line_vals = {
-                'name': name_and_ref,
-                'debit': self.amount,
-                'account_id': self.company_id.incoming_securities_account_id.id,
-            }
-            credit_line_vals = {
-                'name': name_and_ref,
-                'credit': self.amount,
-                'account_id': self.consignee_id.property_account_receivable_id.id,
-            }
+        for doc in self:
+            doc.state = 'undeposited'
+            if not doc.guaranty:
+                name_and_ref = 'Receiving {} {} for {}'.format(doc.security_type_id.name, doc.number,
+                                                               doc.env.context.get('payment_description') or doc.reason)
+                debit_line_vals = {
+                    'name': name_and_ref,
+                    'debit': doc.amount,
+                    'account_id': doc.company_id.incoming_securities_account_id.id,
+                }
+                credit_line_vals = {
+                    'name': name_and_ref,
+                    'credit': doc.amount,
+                    'account_id': doc.consignee_id.property_account_receivable_id.id,
+                }
 
-            vals = {
-                'journal_id': self.company_id.treasury_journal_id.id,
-                'partner_id': self.consignee_id.id,
-                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
-                'ref': name_and_ref
-            }
-            new_move = self.env['account.move'].create(vals)
-            self.account_move_line_ids += new_move.line_ids
+                vals = {
+                    'journal_id': doc.company_id.treasury_journal_id.id,
+                    'partner_id': doc.consignee_id.id,
+                    'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                    'ref': name_and_ref
+                }
+                new_move = doc.env['account.move'].create(vals)
+                doc.account_move_line_ids += new_move.line_ids
 
     @api.multi
     def action_in_bank(self):
-        self.state = 'in_bank'
-        credit_account = self.company_id.incoming_securities_account_id.id if self.guaranty \
-            else self.company_id.other_incomes_account.id
-        name_and_ref = 'Delivering {} {} for {}'.format(self.security_type_id.name, self.number,
-                                                        self.env.context.get('payment_description') or self.reason)
-        debit_line_vals = {
-            'name': name_and_ref,
-            'debit': self.amount,
-            'account_id': self.company_id.incoming_securities_in_bank_account_id.id,
-        }
-        credit_line_vals = {
-            'name': name_and_ref,
-            'credit': self.amount,
-            'account_id': credit_account,
-        }
+        for doc in self:
+            doc.state = 'in_bank'
+            credit_account = doc.company_id.incoming_securities_account_id.id if doc.guaranty \
+                else doc.company_id.other_incomes_account.id
+            name_and_ref = 'Delivering {} {} for {}'.format(doc.security_type_id.name, doc.number,
+                                                            doc.env.context.get('payment_description') or doc.reason)
+            debit_line_vals = {
+                'name': name_and_ref,
+                'debit': doc.amount,
+                'account_id': doc.company_id.incoming_securities_in_bank_account_id.id,
+            }
+            credit_line_vals = {
+                'name': name_and_ref,
+                'credit': doc.amount,
+                'account_id': credit_account,
+            }
 
-        vals = {
-            'journal_id': self.company_id.treasury_journal_id.id,
-            'partner_id': self.consignee_id.id,
-            'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
-            'ref': name_and_ref,
-        }
-        new_move = self.env['account.move'].create(vals)
-        self.account_move_line_ids += new_move.line_ids
+            vals = {
+                'journal_id': doc.company_id.treasury_journal_id.id,
+                'partner_id': doc.consignee_id.id,
+                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                'ref': name_and_ref,
+            }
+            new_move = doc.env['account.move'].create(vals)
+            doc.account_move_line_ids += new_move.line_ids
 
     @api.multi
     def action_bounce(self):
-        self.state = 'bounced'
-        name_and_ref = 'Bouncing {} {} for {}'.format(self.security_type_id.name, self.number,
-                                                      self.env.context.get('payment_description') or self.reason)
-        debit_line_vals = {
-            'name': name_and_ref,
-            'debit': self.amount,
-            'account_id': self.consignee_id.property_account_receivable_id.id,
-        }
-        credit_line_vals = {
-            'name': name_and_ref,
-            'credit': self.amount,
-            'account_id': self.company_id.incoming_securities_in_bank_account_id.id,
-        }
+        for doc in self:
+            self.state = 'bounced'
+            name_and_ref = 'Bouncing {} {} for {}'.format(doc.security_type_id.name, doc.number,
+                                                          doc.env.context.get('payment_description') or doc.reason)
+            debit_line_vals = {
+                'name': name_and_ref,
+                'debit': doc.amount,
+                'account_id': doc.consignee_id.property_account_receivable_id.id,
+            }
+            credit_line_vals = {
+                'name': name_and_ref,
+                'credit': doc.amount,
+                'account_id': doc.company_id.incoming_securities_in_bank_account_id.id,
+            }
 
-        vals = {
-            'journal_id': self.company_id.treasury_journal_id.id,
-            'partner_id': self.consignee_id.id,
-            'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
-            'ref': name_and_ref,
-        }
-        new_move = self.env['account.move'].create(vals)
-        self.account_move_line_ids += new_move.line_ids
+            vals = {
+                'journal_id': doc.company_id.treasury_journal_id.id,
+                'partner_id': doc.consignee_id.id,
+                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                'ref': name_and_ref,
+            }
+            new_move = doc.env['account.move'].create(vals)
+            doc.account_move_line_ids += new_move.line_ids
 
     @api.multi
     def action_sue(self):
-        self.state = 'sued'
-        if not self.guaranty:
-            name_and_ref = 'Suing {} {} for {}'.format(self.security_type_id.name, self.number,
-                                                       self.env.context.get('payment_description') or self.reason)
-            debit_line_vals = {
-                'name': name_and_ref,
-                'debit': self.amount,
-                'account_id': self.company_id.incoming_securities_account_id.id,
-            }
-            credit_line_vals = {
-                'name': name_and_ref,
-                'credit': self.amount,
-                'account_id': self.company_id.sued_incoming_securities_account_id.id,
-            }
+        for doc in self:
+            doc.state = 'sued'
+            if not doc.guaranty:
+                name_and_ref = 'Suing {} {} for {}'.format(doc.security_type_id.name, doc.number,
+                                                           doc.env.context.get('payment_description') or doc.reason)
+                debit_line_vals = {
+                    'name': name_and_ref,
+                    'debit': doc.amount,
+                    'account_id': doc.company_id.incoming_securities_account_id.id,
+                }
+                credit_line_vals = {
+                    'name': name_and_ref,
+                    'credit': doc.amount,
+                    'account_id': doc.company_id.sued_incoming_securities_account_id.id,
+                }
 
-            vals = {
-                'journal_id': self.company_id.treasury_journal_id.id,
-                'partner_id': self.consignee_id.id,
-                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
-                'ref': name_and_ref,
-            }
-            new_move = self.env['account.move'].create(vals)
-            self.account_move_line_ids += new_move.line_ids
+                vals = {
+                    'journal_id': doc.company_id.treasury_journal_id.id,
+                    'partner_id': doc.consignee_id.id,
+                    'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                    'ref': name_and_ref,
+                }
+                new_move = doc.env['account.move'].create(vals)
+                doc.account_move_line_ids += new_move.line_ids
 
     @api.multi
     def action_return(self):
-        self.state = 'returned'
-        if not self.guaranty:
-            name_and_ref = 'Returning {} {} for {}'.format(self.security_type_id.name, self.number,
-                                                           self.env.context.get('payment_description') or self.reason)
-            debit_line_vals = {
-                'name': name_and_ref,
-                'debit': self.amount,
-                'account_id': self.consignee_id.property_account_receivable_id.id,
-            }
-            credit_line_vals = {
-                'name': name_and_ref,
-                'credit': self.amount,
-                'account_id': self.company_id.incoming_securities_account_id.id,
-            }
+        for doc in self:
+            doc.state = 'returned'
+            if not doc.guaranty:
+                name_and_ref = 'Returning {} {} for {}'.format(doc.security_type_id.name, doc.number,
+                                                               doc.env.context.get('payment_description') or doc.reason)
+                debit_line_vals = {
+                    'name': name_and_ref,
+                    'debit': doc.amount,
+                    'account_id': doc.consignee_id.property_account_receivable_id.id,
+                }
+                credit_line_vals = {
+                    'name': name_and_ref,
+                    'credit': doc.amount,
+                    'account_id': doc.company_id.incoming_securities_account_id.id,
+                }
 
-            vals = {
-                'journal_id': self.company_id.treasury_journal_id.id,
-                'partner_id': self.consignee_id.id,
-                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
-                'ref': name_and_ref,
-            }
-            new_move = self.env['account.move'].create(vals)
-            self.account_move_line_ids += new_move.line_ids
+                vals = {
+                    'journal_id': doc.company_id.treasury_journal_id.id,
+                    'partner_id': doc.consignee_id.id,
+                    'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                    'ref': name_and_ref,
+                }
+                new_move = doc.env['account.move'].create(vals)
+                doc.account_move_line_ids += new_move.line_ids
