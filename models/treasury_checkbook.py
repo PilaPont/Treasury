@@ -13,12 +13,14 @@ class TreasuryCheckbook(models.Model):
     check_ids = fields.One2many('treasury.outgoing', string='Check', inverse_name='checkbook_id',
                                 required=True, domain=[('type', '=', 'check')])
     first_serial_no = fields.Integer(string='First Check Serial No.', required=True)
+    last_serial_no = fields.Integer(string='Last Check Serial No.', compute='_compute_last_serial_no', store=True)
     series_no = fields.Integer(string='Series No.', required=True)
     remained = fields.Integer(string='# Remained', compute='_compute_remained_state', store=True)
     next_check = fields.Char(string='next check No.', compute='_compute_next')
     display_name = fields.Char(string='Name', compute='_compute_display_name', store=True)
     active = fields.Boolean(string='active', compute='_compute_active', store=True)
     count = fields.Integer(string='Count')
+    renew = fields.Boolean(string='Re New', compute='_compute_renew', store=True)
     select_count = fields.Selection(selection=[
         ('10', '10'),
         ('20', '20'),
@@ -32,6 +34,11 @@ class TreasuryCheckbook(models.Model):
         default='open',
         compute='_compute_remained_state',
         store=True)
+
+    @api.multi
+    def _compute_last_serial_no(self):
+        for check_book in self:
+            check_book.last_serial_no = check_book.first_serial_no + check_book.count
 
     @api.multi
     @api.depends('check_ids.state')
@@ -62,6 +69,12 @@ class TreasuryCheckbook(models.Model):
     def _compute_active(self):
         for check_book in self:
             check_book.active = False if check_book.state == 'done' else True
+
+    @api.multi
+    @api.depends('remained')
+    def _compute_renew(self):
+        for check_book in self:
+            check_book.renew = True if check_book.remained <= check_book.count/5 else False
 
     @api.onchange('select_count')
     def _onchange_select_count(self):
