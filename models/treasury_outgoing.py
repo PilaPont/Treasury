@@ -56,7 +56,7 @@ class TreasuryOutgoing(models.Model):
     @api.multi
     def _compute_description(self):
         for doc in self:
-            doc.description = '{} {} {}'.format(self.beneficiary.name, _('for'), self.reason)
+            doc.description = '{} {} {}'.format(self.beneficiary_id.name, _('for'), self.reason)
 
     @api.multi
     @api.depends('type')
