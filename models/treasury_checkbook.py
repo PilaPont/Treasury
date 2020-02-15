@@ -36,6 +36,7 @@ class TreasuryCheckbook(models.Model):
         store=True)
 
     @api.multi
+    @api.depends('first_serial_no')
     def _compute_last_serial_no(self):
         for check_book in self:
             check_book.last_serial_no = check_book.first_serial_no + check_book.count
