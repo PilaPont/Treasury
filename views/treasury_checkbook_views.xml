@@ -51,6 +51,19 @@
         </field>
     </record>
 
+    <record id="treasury_checkbook_search" model="ir.ui.view">
+        <field name="name">treasury.checkbook.search</field>
+        <field name="model">treasury.checkbook</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="journal_id"/>
+                <field name="bank_account_id"/>
+                <field name="check_ids" filter_domain="[('first_serial_no','&lt;=',self),('last_serial_no','&gt;=', self)]"/>
+                <filter string="To Renew" name="Renew" domain="[('renew', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
     <record id="treasury_checkbook_action_view_tree" model="ir.actions.act_window">
         <field name="name">Treasury Checkbook</field>
         <field name="res_model">treasury.checkbook</field>
