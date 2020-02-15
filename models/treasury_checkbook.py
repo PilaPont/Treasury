@@ -75,7 +75,7 @@ class TreasuryCheckbook(models.Model):
     @api.depends('remained')
     def _compute_renew(self):
         for check_book in self:
-            check_book.renew = True if check_book.remained <= check_book.count/5 else False
+            check_book.renew = True if check_book.remained <= check_book.count / 5 else False
 
     @api.onchange('select_count')
     def _onchange_select_count(self):
@@ -103,8 +103,8 @@ class TreasuryCheckbook(models.Model):
         return super(TreasuryCheckbook, self).unlink()
 
     @api.multi
-    def cancel_all(self):
-        for check in self.check_ids:
-            if check.state in ('new', 'draft', 'printed'):
-                check.state = 'canceled'
-        self.active = False
+    def action_cancel_all(self):
+        for checkbook in self:
+            checkbook.check_ids.filtered(lambda ch: ch.state in ('new', 'draft', 'printed')).write(
+                {'state': 'canceled'})
+            checkbook.active = False
