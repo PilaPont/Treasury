@@ -64,10 +64,22 @@
         </field>
     </record>
 
+    <record id="treasury_checkbook_pivot" model="ir.ui.view">
+            <field name="name">>treasury.checkbook.pivot</field>
+            <field name="model">treasury.checkbook</field>
+            <field name="arch" type="xml">
+                <pivot string="Checkbook State">
+                    <field name="journal_id" type="row"/>
+                    <field name="state" type="col"/>
+                    <field name="count" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
     <record id="treasury_checkbook_action_view_tree" model="ir.actions.act_window">
         <field name="name">Treasury Checkbook</field>
         <field name="res_model">treasury.checkbook</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first checkbook!
