@@ -70,10 +70,80 @@
         </field>
     </record>
 
+    <record id="treasury_incoming_search" model="ir.ui.view">
+        <field name="name">treasury.incoming.search</field>
+        <field name="model">treasury.incoming</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="display_name"
+                       filter_domain="['|','|',('name','ilike',self),('number','ilike',self),('reason','ilike',self)]"/>
+                <field name="consignee_id"/>
+                <field name="state"/>
+                <filter string="Draft" name="filter_by_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Undeposited" name="filter_by_undeposited" domain="[('state', '=', 'undeposited')]"/>
+                <filter string="In bank" name="filter_by_in_bank" domain="[('state', '=', 'in_bank')]"/>
+                <filter string="Collected" name="filter_by_collected" domain="[('state', '=', 'collected')]"/>
+                <filter string="Transferred" name="filter_by_transferred" domain="[('state', '=', 'transferred')]"/>
+                <filter string="Bounced" name="filter_by_bounced" domain="[('state', '=', 'bounced')]"/>
+                <filter string="Sued" name="filter_by_sued" domain="[('state', '=', 'sued')]"/>
+                <filter string="Returned" name="filter_by_returned" domain="[('state', '=', 'returned')]"/>
+                <separator/>
+                <filter string="Check" name="filter_by_check" domain="[('type', '=', 'check')]"/>
+                <filter string="Promissory note" name="filter_by_promissory_note"
+                        domain="[('type', '=', 'promissory_note')]"/>
+                <filter string="Bond" name="filter_by_bond" domain="[('type', '=', 'bond')]"/>
+                <filter string="LC" name="filter_by_lc" domain="[('type', '=', 'lc')]"/>
+                <filter string="Bank guaranty" name="filter_by_bank_guaranty"
+                        domain="[('type', '=', 'bank_guaranty')]"/>
+                <separator/>
+                <filter string="Guaranty" name="filter_by_guaranty" domain="[('guaranty', '=', True)]"/>
+                <filter string="Over Due" name="filter_by_over_due"
+                        domain="[('guaranty', '=', False),('state','!=','bounced'),('due_state','=','overdue')]"/>
+                <filter string="Due" name="filter_by_due"
+                        domain="[('guaranty', '=', False),('due_state','=','due')]"/>
+                <filter string="To Release" name="filter_by_release"
+                        domain="[('guaranty', '=', True),('expected_return_by','&gt;=',context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Upcoming" name="filter_by_upcoming"
+                        domain="[('due_date','&lt;=',(context_today()+datetime.timedelta(days=7)).strftime('%Y-%m-%d')),('state','=','undeposited')]"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="State" name="group_by_state" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="Type" name="group_by_type" domain="[]" context="{'group_by':'type'}"/>
+                    <filter string="Security type" name="group_by_security_type" domain="[]"
+                            context="{'group_by':'security_type_id'}"/>
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="treasury_incoming_pivot" model="ir.ui.view">
+        <field name="name">>treasury.incoming.pivot</field>
+        <field name="model">treasury.incoming</field>
+        <field name="arch" type="xml">
+            <pivot string="Incoming State Pivot">
+                <field name="due_date" interval="week" type="row"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="treasury_incoming_graph" model="ir.ui.view">
+        <field name="name">>treasury.incoming.graph</field>
+        <field name="model">treasury.incoming</field>
+        <field name="arch" type="xml">
+            <pivot string="Incoming State Graph">
+                <field name="due_date" interval="week" type="row"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+
     <record id="treasury_incoming_action_view_tree" model="ir.actions.act_window">
         <field name="name">Treasury Incoming</field>
         <field name="res_model">treasury.incoming</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first incoming!

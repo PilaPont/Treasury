@@ -36,7 +36,7 @@ class TreasuryIncoming(models.Model):
     @api.depends('state')
     def _compute_active(self):
         for doc in self:
-            doc.active = False if doc.state in ('collected', 'returned', 'canceled', 'transferred') else True
+            doc.active = False if doc.state in ('collected', 'returned', 'transferred') else True
 
     @api.multi
     @api.depends('account_move_line_ids')
