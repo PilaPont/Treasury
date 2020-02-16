@@ -108,9 +108,9 @@
                 <separator/>
                 <filter string="Guaranty" name="filter_by_guaranty" domain="[('guaranty', '=', True)]"/>
                 <filter string="Over Due" name="filter_by_over_due"
-                        domain="[('guaranty', '=', False),('state','!=','bounced'),('due_date','&gt;',context_today().strftime('%Y-%m-%d'))]"/>
+                        domain="[('guaranty', '=', False),('state','!=','bounced'),('due_state','=','overdue')]"/>
                 <filter string="Due" name="filter_by_due"
-                        domain="[('guaranty', '=', False),('due_date','=',context_today().strftime('%Y-%m-%d'))]"/>
+                        domain="[('guaranty', '=', False),('due_state','=','due')]"/>
                 <filter string="To Release" name="filter_by_release"
                         domain="[('guaranty', '=', True),('expected_return_by','&gt;=',context_today().strftime('%Y-%m-%d'))]"/>
                 <filter string="Upcoming" name="filter_by_upcoming"
