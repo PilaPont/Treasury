@@ -131,7 +131,18 @@
         <field name="name">>treasury.outgoing.pivot</field>
         <field name="model">treasury.outgoing</field>
         <field name="arch" type="xml">
-            <pivot string="Outgoing State">
+            <pivot string="Outgoing State Pivot">
+                <field name="due_date" interval="week" type="row"/>
+                    <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="treasury_outgoing_graph" model="ir.ui.view">
+        <field name="name">>treasury.outgoing.graph</field>
+        <field name="model">treasury.outgoing</field>
+        <field name="arch" type="xml">
+            <pivot string="Outgoing State Graph">
                 <field name="due_date" interval="week" type="row"/>
                     <field name="amount" type="measure"/>
             </pivot>
@@ -141,7 +152,7 @@
     <record id="treasury_outgoing_action_view_tree" model="ir.actions.act_window">
         <field name="name">Treasury Outgoing</field>
         <field name="res_model">treasury.outgoing</field>
-        <field name="view_mode">tree,form,pivot</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first Outgoing!
