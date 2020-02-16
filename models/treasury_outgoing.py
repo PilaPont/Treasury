@@ -25,7 +25,7 @@ class TreasuryOutgoing(models.Model):
         ('promissory_note', 'Promissory note'),
         ('bond', 'Bond'),
         ('lc', 'LC'),
-        ('bank_guaranty', 'Bank_guaranty')],
+        ('bank_guaranty', 'Bank guaranty')],
         compute='_compute_select_type',
         inverse='_set_select_type',
         store=False,
