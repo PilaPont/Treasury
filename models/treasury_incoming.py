@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 from odoo import api, fields, models, _
 
 
@@ -20,12 +19,6 @@ class TreasuryIncoming(models.Model):
                                             string='Journal items', readonly=True)
     account_move_ids = fields.One2many(comodel_name='account.move', string='Journal entries',
                                        compute='_compute_account_moves')
-    due_state = fields.Selection(selection=[
-        ('undue', 'Undue'),
-        ('due', 'Due'),
-        ('overdue', 'overdue')],
-        compute='_compute_due',
-        search='_search_due')
     state = fields.Selection(selection=[
         ('draft', 'Draft'),
         ('undeposited', 'Undeposited'),
@@ -46,21 +39,6 @@ class TreasuryIncoming(models.Model):
             doc.active = False if doc.state in ('collected', 'returned', 'canceled', 'transferred') else True
 
     @api.multi
-    @api.depends('due_date')
-    def _compute_due(self):
-        for doc in self:
-            if not doc.due_date:
-                doc.due_state = 'undue'
-            else:
-                current_date = datetime.date.today()
-                if doc.due_date < current_date:
-                    doc.due_state = 'overdue'
-                elif doc.due_date == current_date:
-                    doc.due_state = 'due'
-                else:
-                    doc.due_state = 'undue'
-
-    @api.multi
     @api.depends('account_move_line_ids')
     def _compute_account_moves(self):
         for doc in self:
@@ -69,29 +47,6 @@ class TreasuryIncoming(models.Model):
     @api.onchange('consignee_id')
     def _onchange_consignee_id(self):
         self.issued_by = self.consignee_id.display_name
-
-    def _search_due(self, operator, value):
-        current_date = datetime.date.today()
-        if operator == '=':
-            if value == 'overdue':
-                return [('due_date', '<', current_date)]
-            elif value == 'due':
-                return [('due_date', '=', current_date)]
-            elif value == 'undue':
-                return [('due_date', '>', current_date)]
-            else:
-                return [('due_date', '=', False)]
-        elif operator == '!=':
-            if value == 'overdue':
-                return [('due_date', '>=', current_date)]
-            elif value == 'due':
-                return ['|', ('due_date', '<', current_date), ('due_date', '>', current_date)]
-            elif value == 'undue':
-                return [('due_date', '<=', current_date)]
-            else:
-                return [('due_date', '=', False)]
-        else:
-            raise NotImplementedError
 
     @api.multi
     def action_confirm(self):
