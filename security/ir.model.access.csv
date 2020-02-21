@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_treasury_checkbook_treasury_user,treasury.checkbook.treasury.user,model_treasury_checkbook,group_treasury_user,1,1,0,0
+access_treasury_checkbook_treasury_manager,treasury.checkbook.treasury.manager,model_treasury_checkbook,group_treasury_manager,1,1,1,0
+access_treasury_outgoing_treasury_user,treasury.outgoing.treasury.user,model_treasury_outgoing,group_treasury_user,1,1,1,0
+access_treasury_incoming_treasury_user,treasury.incoming.treasury.user,model_treasury_incoming,group_treasury_user,1,1,1,0
+access_treasury_security_type_treasury_manager,treasury.security_type.treasury.manager,model_treasury_security_type,treasury.group_treasury_manager,1,1,1,0
+access_treasury_security_type_treasury_user,treasury.security_type.treasury.user,model_treasury_security_type,treasury.group_treasury_user,1,0,0,0

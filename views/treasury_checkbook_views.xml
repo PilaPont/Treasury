@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="treasury_checkbook_view_tree" model="ir.ui.view">
+        <field name="name">treasury.checkbook.view.tree</field>
+        <field name="model">treasury.checkbook</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name"/>
+                <field name="remained"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="treasury_checkbook_view_form" model="ir.ui.view">
+        <field name="name">treasury.checkbook.view.form</field>
+        <field name="model">treasury.checkbook</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" attrs="{'invisible':[('check_ids','=',[])]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="journal_id" attrs="{'readonly':[('check_ids','!=',[])]}"
+                                   domain="[('type', '=', 'bank'), ('company_id', '=', company_id)]"
+                                   widget="selection"/>
+                            <field name="bank_account_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="display_name" attrs="{'invisible':[('check_ids','=',[])]}"/>
+                        </group>
+                        <group>
+                            <field name="series_no" options='{"type":"text"}'
+                                   attrs="{'readonly':[('check_ids','!=',[])]}"/>
+                            <field name="first_serial_no" options='{"type":"text"}'
+                                   attrs="{'readonly':[('check_ids','!=',[])]}"/>
+                            <field name="select_count" attrs="{'readonly':[('check_ids','!=',[])]}"/>
+                            <field name="count"
+                                   attrs="{'invisible':[('select_count','!=','custom_count')], 'readonly':[('check_ids','!=',[])]}"/>
+                            <field name="remained" attrs="{'invisible':[('check_ids','=',[])]}"/>
+                        </group>
+                        <field name="check_ids" readonly="1"/>
+                        <group>
+                            <button name="cancel_all" string="cancel all" type="object"
+                                    confirm="Are you sure you want to do this?" class="btn-primary"
+                                    attrs="{'invisible':[('check_ids','=',[])]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="treasury_checkbook_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Treasury Checkbook</field>
+        <field name="res_model">treasury.checkbook</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first checkbook!
+            </p>
+        </field>
+    </record>
+</odoo>

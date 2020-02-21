@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--decoration-danger="state=='delivered' or (due_date and due_date &lt;= current_date)"-->
+    <record id="treasury_outgoing_view_tree" model="ir.ui.view">
+        <field name="name">treasury.outgoing.view.tree</field>
+        <field name="model">treasury.outgoing</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state=='new' or state=='draft'" decoration-info="state=='printed'"
+                  decoration-bf="state=='delivered'"
+                  decoration-muted="state=='canceled' or state=='cashed'">
+                <field name="name"/>
+                <field name="due_date"/>
+                <field name="amount"/>
+                <field name="beneficiary"/>
+                <field name="reason"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="treasury_outgoing_view_form" model="ir.ui.view">
+        <field name="name">treasury.outgoing.view.form</field>
+        <field name="model">treasury.outgoing</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_print" string="print" type="object" class="btn-primary" attrs="{'invisible':['|', ('type','!=','check'), ('state','not in',['new','draft'])]}"/>
+                    <button name="action_issue" string="issue" type="object" class="btn-primary" attrs="{'invisible':['|', ('type','=','check'), ('state','not in',['new','draft'])]}"/>
+                    <button name="action_deliver" string="deliver" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','!=','printed')]}"/>
+                    <button name="action_cancel" string="cancel" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','=',['delivered', 'cashed'])]}"/>
+                    <button name="action_return" string="return" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','!=',['delivered', 'bounced'])]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="number" attrs="{'readonly':['|',('state','not in',['new', 'draft']), ('type','=','check')]}"/>
+                            <field name="type" invisible="1"/>
+                            <field name="select_type"
+                                   attrs="{'readonly':[('state','not in',['new', 'draft'])], 'invisible':[('type','==','check')], 'required':[('type','!=','check')]}"/>
+                            <field name="due_date" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
+                                   required="1"/>
+                            <field name="guaranty"
+                                   attrs="{'readonly':[('type','in',['promissory_note', 'bank_guaranty'])]}"
+                                   required="1"/>
+                            <field name="expected_return_by"
+                                   attrs="{'invisible':[('guaranty','=',False)], 'required':[('guaranty','=',True)]}"/>
+                            <field name="checkbook_id" attrs="{'invisible':[('type','!=','check')]}"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   attrs="{'readonly':[('state','not in',['new', 'draft'])]}" required="1"/>
+
+                        </group>
+                        <group>
+                            <field name="security_type_id"
+                                   attrs="{'readonly':[('state','not in',['new', 'draft'])], 'required':[('type','!=','check')]}"
+                                   domain="[('type', '=', 'type')]"/>
+                            <field name="amount" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
+                                   required="1"/>
+                            <field name="currency_id" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
+                                   required="1"/>
+                            <field name="beneficiary" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
+                                   required="1"/>
+                            <field name="reason" attrs="{'readonly':[('state','not in',['new', 'draft'])]}"
+                                   required="1"/>
+                            <field name="date_delivery" attrs="{'invisible':[('state','in',['new', 'draft'])]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="treasury_outgoing_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Treasury Outgoing</field>
+        <field name="res_model">treasury.outgoing</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Outgoing!
+            </p>
+        </field>
+    </record>
+</odoo>

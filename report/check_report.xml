@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_check" model="report.paperformat">
+        <field name="name">A4</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+    <report
+            string="Check"
+            id="action_print_check"
+            model="treasury.outgoing"
+            report_type="qweb-pdf"
+            name="treasury.print_check"
+            file="treasury.print_check"
+            paperformat="paperformat_check"
+    />
+
+</odoo>
