@@ -90,30 +90,30 @@
                        filter_domain="['|','|',('name','ilike',self),('number','ilike',self),('reason','ilike',self)]"/>
                 <field name="beneficiary_id"/>
                 <field name="state"/>
-                <filter string="New" name="filter_by_new" domain="[('state', '=', 'new')]"/>
-                <filter string="Draft" name="filter_by_draft" domain="[('state', '=', 'draft')]"/>
-                <filter string="Issued" name="filter_by_issued" domain="[('state', '=', 'issued')]"/>
-                <filter string="Delivered" name="filter_by_delivered" domain="[('state', '=', 'delivered')]"/>
-                <filter string="Cashed" name="filter_by_cashed" domain="[('state', '=', 'cashed')]"/>
-                <filter string="Bounced" name="filter_by_bounced" domain="[('state', '=', 'bounced')]"/>
-                <filter string="Canceled" name="filter_by_canceled" domain="[('state', '=', 'canceled')]"/>
+                <filter string="New" name="new" domain="[('state', '=', 'new')]"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Issued" name="issued" domain="[('state', '=', 'issued')]"/>
+                <filter string="Delivered" name="delivered" domain="[('state', '=', 'delivered')]"/>
+                <filter string="Cashed" name="cashed" domain="[('state', '=', 'cashed')]"/>
+                <filter string="Bounced" name="bounced" domain="[('state', '=', 'bounced')]"/>
+                <filter string="Canceled" name="canceled" domain="[('state', '=', 'canceled')]"/>
                 <separator/>
-                <filter string="Check" name="filter_by_check" domain="[('type', '=', 'check')]"/>
-                <filter string="Promissory note" name="filter_by_promissory_note"
+                <filter string="Check" name="check" domain="[('type', '=', 'check')]"/>
+                <filter string="Promissory note" name="promissory_note"
                         domain="[('type', '=', 'promissory_note')]"/>
-                <filter string="Bond" name="filter_by_bond" domain="[('type', '=', 'bond')]"/>
-                <filter string="LC" name="filter_by_lc" domain="[('type', '=', 'lc')]"/>
-                <filter string="Bank guaranty" name="filter_by_bank_guaranty"
+                <filter string="Bond" name="bond" domain="[('type', '=', 'bond')]"/>
+                <filter string="LC" name="lc" domain="[('type', '=', 'lc')]"/>
+                <filter string="Bank guaranty" name="bank_guaranty"
                         domain="[('type', '=', 'bank_guaranty')]"/>
                 <separator/>
-                <filter string="Guaranty" name="filter_by_guaranty" domain="[('guaranty', '=', True)]"/>
-                <filter string="Over Due" name="filter_by_over_due"
+                <filter string="Guaranty" name="guaranty" domain="[('guaranty', '=', True)]"/>
+                <filter string="Over Due" name="over_due"
                         domain="[('guaranty', '=', False),('state','!=','bounced'),('due_state','=','overdue')]"/>
-                <filter string="Due" name="filter_by_due"
+                <filter string="Due" name="due"
                         domain="[('guaranty', '=', False),('due_state','=','due')]"/>
-                <filter string="To Release" name="filter_by_release"
+                <filter string="To Release" name="release"
                         domain="[('guaranty', '=', True),('expected_return_by','&gt;=',context_today().strftime('%Y-%m-%d'))]"/>
-                <filter string="Upcoming" name="filter_by_upcoming"
+                <filter string="Upcoming" name="upcoming"
                         domain="[('due_date','&lt;=',(context_today()+datetime.timedelta(days=7)).strftime('%Y-%m-%d')),('state','=','delivered')]"/>
 
                 <group expand="0" string="Group By">

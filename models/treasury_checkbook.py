@@ -13,15 +13,14 @@ class TreasuryCheckbook(models.Model):
     check_ids = fields.One2many('treasury.outgoing', string='Check', inverse_name='checkbook_id',
                                 required=True, domain=[('type', '=', 'check')])
     first_serial_no = fields.Integer(string='First Check Serial No.', required=True)
-    last_serial_no = fields.Integer(string='Last Check Serial No.', compute='_compute_last_serial_no',
-                                    search='_search_last_serial_no')
+    last_serial_no = fields.Integer(string='Last Check Serial No.', compute='_compute_last_serial_no', store=True)
     series_no = fields.Integer(string='Series No.', required=True)
     remained = fields.Integer(string='# Remained', compute='_compute_remained_state', store=True)
     next_check = fields.Char(string='next check No.', compute='_compute_next')
     display_name = fields.Char(string='Name', compute='_compute_display_name', store=True)
     active = fields.Boolean(string='active', compute='_compute_active', store=True)
     count = fields.Integer(string='Count')
-    renew = fields.Boolean(string='Re New', compute='_compute_renew', search='_search_renew')
+    renew = fields.Boolean(string='Running Out', compute='_compute_renew', store=True)
     select_count = fields.Selection(selection=[
         ('10', '10'),
         ('20', '20'),
@@ -84,20 +83,6 @@ class TreasuryCheckbook(models.Model):
             self.count = int(self.select_count)
         except Exception as e:
             print(e)
-
-    def _search_last_serial_no(self, operator, value):
-        if operator == '>=':
-            search_list = self.search([]).filtered(lambda cb: cb.first_serial_no >= int(value) - cb.count).mapped('id')
-            return [('id', 'in', search_list)]
-        else:
-            raise NotImplementedError
-
-    def _search_renew(self, operator, value):
-        if operator == '=' and value:
-            search_list = self.search([]).filtered(lambda cb: cb.remained <= cb.count / 5).mapped('id')
-            return [('id', 'in', search_list)]
-        else:
-            raise NotImplementedError
 
     @api.model
     def create(self, vals):
