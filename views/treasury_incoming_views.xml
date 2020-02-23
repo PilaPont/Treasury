@@ -79,31 +79,31 @@
                        filter_domain="['|','|',('name','ilike',self),('number','ilike',self),('reason','ilike',self)]"/>
                 <field name="consignee_id"/>
                 <field name="state"/>
-                <filter string="Draft" name="filter_by_draft" domain="[('state', '=', 'draft')]"/>
-                <filter string="Undeposited" name="filter_by_undeposited" domain="[('state', '=', 'undeposited')]"/>
-                <filter string="In bank" name="filter_by_in_bank" domain="[('state', '=', 'in_bank')]"/>
-                <filter string="Collected" name="filter_by_collected" domain="[('state', '=', 'collected')]"/>
-                <filter string="Transferred" name="filter_by_transferred" domain="[('state', '=', 'transferred')]"/>
-                <filter string="Bounced" name="filter_by_bounced" domain="[('state', '=', 'bounced')]"/>
-                <filter string="Sued" name="filter_by_sued" domain="[('state', '=', 'sued')]"/>
-                <filter string="Returned" name="filter_by_returned" domain="[('state', '=', 'returned')]"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Undeposited" name="undeposited" domain="[('state', '=', 'undeposited')]"/>
+                <filter string="In bank" name="in_bank" domain="[('state', '=', 'in_bank')]"/>
+                <filter string="Collected" name="collected" domain="[('state', '=', 'collected')]"/>
+                <filter string="Transferred" name="transferred" domain="[('state', '=', 'transferred')]"/>
+                <filter string="Bounced" name="bounced" domain="[('state', '=', 'bounced')]"/>
+                <filter string="Sued" name="sued" domain="[('state', '=', 'sued')]"/>
+                <filter string="Returned" name="returned" domain="[('state', '=', 'returned')]"/>
                 <separator/>
-                <filter string="Check" name="filter_by_check" domain="[('type', '=', 'check')]"/>
-                <filter string="Promissory note" name="filter_by_promissory_note"
+                <filter string="Check" name="check" domain="[('type', '=', 'check')]"/>
+                <filter string="Promissory note" name="promissory_note"
                         domain="[('type', '=', 'promissory_note')]"/>
-                <filter string="Bond" name="filter_by_bond" domain="[('type', '=', 'bond')]"/>
-                <filter string="LC" name="filter_by_lc" domain="[('type', '=', 'lc')]"/>
-                <filter string="Bank guaranty" name="filter_by_bank_guaranty"
+                <filter string="Bond" name="bond" domain="[('type', '=', 'bond')]"/>
+                <filter string="LC" name="lc" domain="[('type', '=', 'lc')]"/>
+                <filter string="Bank guaranty" name="bank_guaranty"
                         domain="[('type', '=', 'bank_guaranty')]"/>
                 <separator/>
-                <filter string="Guaranty" name="filter_by_guaranty" domain="[('guaranty', '=', True)]"/>
-                <filter string="Over Due" name="filter_by_over_due"
+                <filter string="Guaranty" name="guaranty" domain="[('guaranty', '=', True)]"/>
+                <filter string="Over Due" name="over_due"
                         domain="[('guaranty', '=', False),('state','!=','bounced'),('due_state','=','overdue')]"/>
-                <filter string="Due" name="filter_by_due"
+                <filter string="Due" name="due"
                         domain="[('guaranty', '=', False),('due_state','=','due')]"/>
-                <filter string="To Release" name="filter_by_release"
+                <filter string="To Release" name="release"
                         domain="[('guaranty', '=', True),('expected_return_by','&gt;=',context_today().strftime('%Y-%m-%d'))]"/>
-                <filter string="Upcoming" name="filter_by_upcoming"
+                <filter string="Upcoming" name="upcoming"
                         domain="[('due_date','&lt;=',(context_today()+datetime.timedelta(days=7)).strftime('%Y-%m-%d')),('state','=','undeposited')]"/>
 
                 <group expand="0" string="Group By">
