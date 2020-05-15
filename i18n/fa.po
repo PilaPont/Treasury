@@ -289,7 +289,7 @@ msgstr "پیروان (کانال ها)"
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_partner_ids
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "پیروان (شرکاء)"
+msgstr "دنبال‌کنندگان (مخاطبین)"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_entry__guaranty
@@ -508,7 +508,7 @@ msgstr "تعداد خطاها"
 #: model:ir.model.fields,help:treasury.field_treasury_incoming__message_needaction_counter
 #: model:ir.model.fields,help:treasury.field_treasury_outgoing__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr "تعداد پیام‌هایی که نیاز به اقدام دارند."
+msgstr "تعداد پیام‌هایی که نیاز به اقدام دارند"
 
 #. module: treasury
 #: model:ir.model.fields,help:treasury.field_treasury_entry__message_has_error_counter
@@ -522,7 +522,7 @@ msgstr "تعداد پیام‌ها با خطای تحویل"
 #: model:ir.model.fields,help:treasury.field_treasury_incoming__message_unread_counter
 #: model:ir.model.fields,help:treasury.field_treasury_outgoing__message_unread_counter
 msgid "Number of unread messages"
-msgstr "تعداد پیام‌های خوانده نشده"
+msgstr "تعداد پیام‌های خوانده‌نشده"
 
 #. module: treasury
 #: selection:treasury.checkbook,state:0
@@ -718,7 +718,7 @@ msgstr "سررسید نشده"
 #: model:ir.model.fields,field_description:treasury.field_treasury_incoming__message_unread
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__message_unread
 msgid "Unread Messages"
-msgstr "پیام‌های ناخوانده"
+msgstr "پیام‌های خوانده‌نشده"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_unread_counter
