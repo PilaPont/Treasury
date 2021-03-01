@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="treasury_checkbook_menu_main" name="Treasury" web_icon=""/>
+
+    <menuitem id="treasury_configuration_menu" name="Treasury Configuration" parent="treasury_checkbook_menu_main"
+              sequence="1000"/>
+    <menuitem id="treasury_checkbook_menu" name="Treasury Checkbook" parent="treasury_configuration_menu"
+              action="treasury_checkbook_action_view_tree"/>
+
+    <menuitem id="treasury_payment_menu" name="Treasury Payment" parent="treasury_checkbook_menu_main"/>
+    <menuitem id="treasury_outgoing_menu" name="Treasury Outgoing" parent="treasury_payment_menu"
+              action="treasury_outgoing_action_view_tree"/>
+
+    <menuitem id="treasury_receive_menu" name="Treasury Receive" parent="treasury_checkbook_menu_main"/>
+    <menuitem id="treasury_incoming_menu" name="Treasury incoming" parent="treasury_receive_menu"
+              action="treasury_incoming_action_view_tree"/>
+</odoo>

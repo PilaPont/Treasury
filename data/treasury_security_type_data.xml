@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="security_type_tender_guaranty" model="treasury.security_type">
+            <field name="name">tender guaranty</field>
+            <field name="type">bank_guaranty</field>
+        </record>
+        <record id="security_type_retention_money_guaranty" model="treasury.security_type">
+            <field name="name">retention money guaranty</field>
+            <field name="type">bank_guaranty</field>
+        </record>
+        <record id="security_type_performance_guaranty" model="treasury.security_type">
+            <field name="name">performance guaranty</field>
+            <field name="type">bank_guaranty</field>
+        </record>
+        <record id="security_type_payment_guaranty" model="treasury.security_type">
+            <field name="name">payment guaranty</field>
+            <field name="type">bank_guaranty</field>
+        </record>
+        <record id="security_type_customs_guaranty" model="treasury.security_type">
+            <field name="name">customs guaranty</field>
+            <field name="type">bank_guaranty</field>
+        </record>
+        <record id="security_type_advanced_payment_guaranty" model="treasury.security_type">
+            <field name="name">advanced payment guaranty</field>
+            <field name="type">bank_guaranty</field>
+        </record>
+        <record id="security_type_retention_promissory_note" model="treasury.security_type">
+            <field name="name">promissory note</field>
+            <field name="type">promissory_note</field>
+        </record>
+        <record id="security_type_check" model="treasury.security_type">
+            <field name="name">check</field>
+            <field name="type">check</field>
+        </record>
+
+    </data>
+</odoo>
