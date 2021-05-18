@@ -25,4 +25,6 @@
              'views/res_company_views.xml',
              ],
     'demo': [],
+    'installable': True,
+    'application': True,
 }
