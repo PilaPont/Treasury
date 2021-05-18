@@ -8,7 +8,7 @@
     'author': "Kenevist Developers, Maryam Kia",
     'website': "www.kenevist.ir",
     'license': 'OPL-1',
-    'depends': ['l10n_ir'
+    'depends': ['l10n_ir', 'account'
                 ],
     'data': ['security/treasury_groups.xml',
              'security/ir.model.access.csv',
