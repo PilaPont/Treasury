@@ -39,7 +39,7 @@ class ResConfigSettings(models.TransientModel):
     incoming_securities_in_bank_account_id = fields.Many2one(comodel_name='account.account',
                                                              string='Incoming Securities In Bank Account',
                                                              default=lambda self: self.env['account.account'].search(
-                                                                 [('code', '=', '1535')]),
+                                                                 [('code', '=', '1935')]),
                                                              related='company_id.incoming_securities_in_bank_account_id',
                                                              readonly=False,
                                                              required=True)
