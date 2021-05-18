@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-28 16:27+0000\n"
-"PO-Revision-Date: 2021-02-28 16:27+0000\n"
+"POT-Creation-Date: 2021-05-18 11:06+0000\n"
+"PO-Revision-Date: 2021-05-18 11:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -414,11 +414,6 @@ msgstr "پایوت وضعیت دریافت‌ها"
 #: model:ir.model.fields,field_description:treasury.field_treasury_outgoing__name
 msgid "Internal Number "
 msgstr "شماره داخلی"
-
-#. module: treasury
-#: model_terms:ir.ui.view,arch_db:treasury.res_config_settings_view_form
-msgid "Invoicing"
-msgstr "صدور فاکتور"
 
 #. module: treasury
 #: model:ir.model.fields,field_description:treasury.field_treasury_entry__message_is_follower
