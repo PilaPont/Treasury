@@ -38,7 +38,7 @@ class TreasuryOutgoing(models.Model):
         ('bounced', 'Bounced'),
         ('canceled', 'Canceled')],
         default='new', readonly=True,
-        track_visibility='onchange')
+        tracking=True)
 
     def name_get(self):
         return '{}_{}'.format(self.checkbook_id.journal_id.name, self.number)

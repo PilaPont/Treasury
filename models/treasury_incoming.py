@@ -9,7 +9,7 @@ class TreasuryIncoming(models.Model):
     received_date = fields.Date(string='Receive Date', required=True)
     consignee_id = fields.Many2one(comodel_name='res.partner', string='Consignee', required=True)
     issued_by = fields.Char(string='Issued by', required=True)
-    scan = fields.Binary(string="Scan", attachment=True, requierd=True)
+    scan = fields.Binary(string="Scan", attachment=True, required=True)
     active = fields.Boolean(string='active', compute='_compute_active', store=True)
     transferred_to_id = fields.Many2one(comodel_name='res.partner', string='Transferred To')
     description = fields.Text(string='Description')
@@ -27,7 +27,7 @@ class TreasuryIncoming(models.Model):
         ('sued', 'Sued'),
         ('returned', 'Returned'), ],
         required=True, readonly=True,
-        track_visibility='onchange',
+        tracking=True,
         default='draft')
 
     @api.depends('state')

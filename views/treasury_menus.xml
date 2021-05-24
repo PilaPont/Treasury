@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="treasury_checkbook_menu_main" name="Treasury" web_icon=""/>
+    <menuitem id="treasury_checkbook_menu_main" name="Treasury" web_icon="treasury,static/description/icon.png"/>
 
     <menuitem id="treasury_configuration_menu" name="Treasury Configuration" parent="treasury_checkbook_menu_main"
               sequence="1000"/>
